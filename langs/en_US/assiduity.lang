@@ -1,0 +1,25 @@
+# Module label 'ModuleXXXName'
+Module431302Name = Attendance
+# Module description 'ModuleXXXDesc'
+Module431302Desc =  Attendance of members management module
+
+
+AssiduitySetup=Configuration module attendance
+AssiduityDesc=This module allows to track the attendance of members for calendar events
+
+AssiduityMenuSess=Attendance
+AssiduityPresent=Present
+AssiduityAbsent=Absent
+AssiduityNC=Non concerné
+AssiduityStatut=Status
+AssiduityStatutbis=Presence
+AssiduityAdd=Record attendance
+
+Assiduity=Assiduité
+AssiduityMenuList=List
+AssiduityMenuNew=Enter attendance
+
+ASSIDUITY_MEMBER_TYPE=Type of Member to advanced
+ASSIDUITY_EVENT=Type of event to check
+ASSIDUITY_EVENT_BEGIN=Start date of score
+Assiduity_Parameter=Settings

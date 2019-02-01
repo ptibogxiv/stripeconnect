@@ -1,0 +1,25 @@
+# Module label 'ModuleXXXName'
+Module431302Name=Presenze
+# Module description 'ModuleXXXDesc'
+Module431302Desc=Frequenza del modulo di gestione di membri
+
+
+AssiduitySetup=Frequenza del modulo di configurazione
+AssiduityDesc=Questo modulo consente di tenere traccia della partecipazione di membri per gli eventi del calendario
+
+AssiduityMenuSess=Presenze
+AssiduityPresent=Ora
+AssiduityAbsent=Assente
+AssiduityNC=Non interessato
+AssiduityStatut=Stato
+AssiduityStatutbis=Presenza
+AssiduityAdd=Record di presenze
+
+Assiduity=Presenze
+AssiduityMenuList=Elenco
+AssiduityMenuNew=Immettere la frequenza
+
+ASSIDUITY_MEMBER_TYPE=Tipo di membro da scegliere
+ASSIDUITY_EVENT=Tipo di evento per controllare
+ASSIDUITY_EVENT_BEGIN=Data di inizio del Punteggio
+Assiduity_Parameter=Parametri

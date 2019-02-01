@@ -1,0 +1,25 @@
+# Module label 'ModuleXXXName'
+Module431302Name=Asistencia
+# Module description 'ModuleXXXDesc'
+Module431302Desc=Atención miembros del módulo de gestión
+
+
+AssiduitySetup=Asistencia del módulo de configuración
+AssiduityDesc=Este módulo permite un seguimiento de la asistencia de los miembros para el calendario de eventos
+
+AssiduityMenuSess=Asistencia
+AssiduityPresent=Ahora
+AssiduityAbsent=Ausente
+AssiduityNC=No le preocupa
+AssiduityStatut=Estado
+AssiduityStatutbis=Presencia
+AssiduityAdd=Récord de asistencia
+
+Assiduity=Asistencia
+AssiduityMenuList=Lista
+AssiduityMenuNew=Entrar en asistencia
+
+ASSIDUITY_MEMBER_TYPE=Tipo de miembro punto
+ASSIDUITY_EVENT=Tipo de evento para comprobar
+ASSIDUITY_EVENT_BEGIN=Fecha de inicio de puntuación
+Assiduity_Parameter=Parámetros

@@ -67,6 +67,8 @@ if ($action == 'setvalue' && $user->admin)
     	if (! $result > 0) $error++;
   $result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_MINIMAL",price2num(GETPOST('STRIPE_APPLICATION_FEE_MINIMAL','alpha')),'chaine',0,'',0);
     if (! $result > 0) $error++;
+  $result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_MAXIMAL",price2num(GETPOST('STRIPE_APPLICATION_FEE_MAXIMAL','alpha')),'chaine',0,'',0);
+    if (! $result > 0) $error++;
 	$result=dolibarr_set_const($db, "STRIPE_APPLICATION_MENSUAL_MINIMAL",price2num(GETPOST('STRIPE_APPLICATION_MENSUAL_MINIMAL','alpha')),'chaine',0,'',0);
     if (! $result > 0) $error++;
     	$result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_PRODUCT_ID",GETPOST('STRIPE_APPLICATION_FEE_PRODUCT_ID','alpha'),'chaine',0,'',0);
@@ -175,14 +177,24 @@ print "</tr>\n";
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_KEY").'</span></td><td>';
-	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
+	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
+  $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestWebhook").'<br>';
+  $url = dol_buildpath('/public/stripe/ipn.php?test', 2);
+	$out.= '<input type="text" id="onlinetestwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
+	$out.= ajax_autoselect("onlinetestwebhookurl", 0);
+	print '<br />'.$out; 
 	print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
+	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
+  $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestConnectWebhook").'<br>';
+  $url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
+	$out.= '<input type="text" id="onlinetestconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
+	$out.= ajax_autoselect("onlinetestconnectwebhookurl", 0);
+	print '<br />'.$out; 
 	print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
@@ -199,14 +211,24 @@ print "</tr>\n";
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_KEY").'</span></td><td>';
-	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
+	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
+  $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveWebhook").'<br>';
+  $url = dol_buildpath('/public/stripe/ipn.php', 2);
+	$out.= '<input type="text" id="onlinelivewebhookurl" class="quatrevingtpercent" value="'.$url.'">';
+	$out.= ajax_autoselect("onlinelivewebhookurl", 0);
+	print '<br />'.$out; 
 	print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
+	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
+  $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';
+  $url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
+	$out.= '<input type="text" id="onlineliveconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
+	$out.= ajax_autoselect("onlineliveconnectwebhookurl", 0);
+  print '<br />'.$out; 
 	print '</td></tr>';
 
 print '</table>';
@@ -286,7 +308,7 @@ print '<tr class="oddeven"><td>'.$langs->trans("STRIPE_APPLICATION_FEE_PLATFORM"
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE_PERCENT" value="'.price($conf->global->STRIPE_APPLICATION_FEE_PERCENT).'">';
 print '% + ';
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE" value="'.price($conf->global->STRIPE_APPLICATION_FEE).'">';
-print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("minimum").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).' </td></tr>';
+print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("minimum").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("maximal").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MAXIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MAXIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).'</td></tr>';
 
 print '<tr class="oddeven"><td>';
 print $langs->trans("STRIPE_APPLICATION_FEE_PLATFORM_MINIMAL").'</td><td>';

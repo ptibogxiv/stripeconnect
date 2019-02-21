@@ -41,6 +41,7 @@ failed=échec du paiement
 refunded=remboursé
 StripeConnectPay=Paiement via Stripe
 Fee=Frais
+NoPrincipalEntity=Pas d'entité principale
 StripeConnectRefund=Remboursement via Stripe
 StripeAccount=Paiement en ligne via Stripe
 StripeFeeList=Liste des frais

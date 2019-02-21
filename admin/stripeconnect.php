@@ -266,11 +266,11 @@ print '<td>';
 		{
 			print '<select class="flat maxwidth200onsmartphone minwidth100" id="STRIPECONNECT_PRINCIPAL" name="STRIPECONNECT_PRINCIPAL">';
 
-			print '<option value="-1"';
-					if ($conf->global->STRIPECONNECT_PRINCIPAL == -1) {
-						print ' selected="selected"';
-					}      
-      print '>'.$langs->trans('NoEntity').'</option>';
+			 //print '<option value="-1"';
+			//		if ($conf->global->STRIPECONNECT_PRINCIPAL == -1) {
+			//			print ' selected="selected"';
+			//		}      
+      //print '>'.$langs->trans('NoPrincipalEntity').'</option>';
 
 			foreach ($dao->entities as $entity)
 			{

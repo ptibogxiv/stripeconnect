@@ -241,6 +241,9 @@ print '<td>'.$langs->trans("UsageParameter").'</td>';
 print '<td>'.$langs->trans("Value").'</td>';
 print "</tr>\n";
 
+// Mode of payment direct or destination charges
+if ($conf->global->MAIN_FEATURES_LEVEL >= 2)	// TODO Not used by current code
+{
 print '<tr class="oddeven">';
 print '<td class="titlefield">';
 print $langs->trans("StripeConnectPlatformMode").'</td><td>';
@@ -255,10 +258,10 @@ else
 	print img_picto($langs->trans("Disabled"),'switch_off');
 }
 print '</td></tr>';
+}
 
+// Choose principal/platform entity
 $dao = new DaoMulticompany($db);
-//$this->getInstanceDao();
-
 $dao->getEntities($login, $exclude);
 print '<tr class="oddeven"><td>'.$langs->trans("STRIPECONNECT_PRINCIPAL").'</td>';
 print '<td>';

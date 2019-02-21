@@ -32,7 +32,7 @@ require_once DOL_DOCUMENT_ROOT.'/product/class/html.formproduct.class.php';
 $servicename='Stripe';
 
 // Load translation files required by the page
-$langs->loadLangs(array('admin', 'other', 'paypal', 'paybox', 'stripe', 'stripeconnect@stripeconnect'));
+$langs->loadLangs(array('admin', 'other', 'paypal', 'paybox', 'stripe', 'stripeconnect@stripeconnect', 'multicompany@multicompany'));
 
 if (! $user->admin) accessforbidden();
 
@@ -242,7 +242,7 @@ print '<tr class="oddeven"><td>'.$langs->trans("STRIPECONNECT_PRINCIPAL").'</td>
 print '<td>';
 		if (is_array($dao->entities))
 		{
-			print '<select class="flat maxwidth200onsmartphone minwidth100" id="'.$htmlname.'" name="STRIPECONNECT_PRINCIPAL">';
+			print '<select class="flat maxwidth200onsmartphone minwidth100" id="STRIPECONNECT_PRINCIPAL" name="STRIPECONNECT_PRINCIPAL">';
 
 			print '<option value="-1"';
 					if ($conf->global->STRIPECONNECT_PRINCIPAL == -1) {
@@ -275,8 +275,11 @@ print '<td>';
 		else {
 			print $langs->trans('NoEntityAvailable');
 		}
-//$this->getInfo($object->entity);
-//$s = $this->select_entities($conf->entity, 'entity');
+    
+    // Make select dynamic
+		include_once DOL_DOCUMENT_ROOT . '/core/lib/ajax.lib.php';
+		print ajax_combobox('STRIPECONNECT_PRINCIPAL');
+
 print '</td></tr>';
 
 print '<tr class="oddeven"><td>'.$langs->trans("STRIPE_APPLICATION_FEE_PLATFORM").'</td><td>';

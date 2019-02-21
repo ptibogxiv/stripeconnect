@@ -311,7 +311,7 @@ print '<tr class="oddeven"><td>'.$langs->trans("STRIPE_APPLICATION_FEE_PLATFORM"
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE_PERCENT" value="'.price($conf->global->STRIPE_APPLICATION_FEE_PERCENT).'">';
 print '% + ';
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE" value="'.price($conf->global->STRIPE_APPLICATION_FEE).'">';
-print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("minimum").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("maximal").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MAXIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MAXIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).'</td></tr>';
+print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("minimum").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("maximum").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MAXIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MAXIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).'</td></tr>';
 
 print '<tr class="oddeven"><td>';
 print $langs->trans("STRIPE_APPLICATION_FEE_PLATFORM_MINIMAL").'</td><td>';

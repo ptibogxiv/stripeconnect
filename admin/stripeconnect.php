@@ -57,9 +57,13 @@ if ($action == 'setvalue' && $user->admin)
 	if (! $result > 0) $error++;  	
   $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_CONNECT_ID",GETPOST('STRIPE_TEST_WEBHOOK_CONNECT_ID','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;  
-	$result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_CONNECT_KEY",GETPOST('STRIPE_TEST_WEBHOOK_CONNECT_KEY','alpha'),'chaine',0,'',0);
+	$result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_CONNECT_KEY",GETPOST('STRIPE_TEST_WEBHOOK_CONNECT_KEY','alpha'),'chaine',0,'',0); 
+	if (! $result > 0) $error++;                                                
+  $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_ID",GETPOST('STRIPE_LIVE_WEBHOOK_ID','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;
 	$result=dolibarr_set_const($db, "STRIPE_LIVE_WEBHOOK_KEY",GETPOST('STRIPE_LIVE_WEBHOOK_KEY','alpha'),'chaine',0,'',0);
+	if (! $result > 0) $error++;
+  $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_ID",GETPOST('STRIPE_LIVE_WEBHOOK_CONNECT_ID','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;
 	$result=dolibarr_set_const($db, "STRIPE_LIVE_WEBHOOK_CONNECT_KEY",GETPOST('STRIPE_LIVE_WEBHOOK_CONNECT_KEY','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;

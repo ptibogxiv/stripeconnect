@@ -165,7 +165,7 @@ print $endpoint;
 
 // Live Webhook
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Aj17AK034Aqz8l5DjCrJA4u");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
 $endpoint->save();
@@ -174,7 +174,7 @@ print $endpoint;
 
 // Connect Live Webhook
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1AkYE3K034Aqz8l5hvCVws7Y");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
 $endpoint->save();

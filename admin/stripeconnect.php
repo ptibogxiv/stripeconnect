@@ -312,7 +312,7 @@ print '</td></tr>';
 }
 
 // Choose principal/platform entity
-if (empty($conf->multicompany->enabled)) {
+if ( ! empty($conf->multicompany->enabled) ) {
 $dao = new DaoMulticompany($db);
 $dao->getEntities($login, $exclude);
 print '<tr class="oddeven"><td>'.$langs->trans("STRIPECONNECT_PRINCIPAL").'</td>';

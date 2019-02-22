@@ -208,7 +208,7 @@ $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 $endpoint->save();
-//print $endpoint;
+print $endpoint;
 } else print img_picto($langs->trans("inactive"),'statut6');
   print'</td></tr>';
   

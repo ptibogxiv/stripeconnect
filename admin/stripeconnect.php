@@ -152,42 +152,6 @@ $head=stripeconnectadmin_prepare_head();
 
 $stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
 
-// Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
-$endpoint->enabled_events = $stripearrayofwebhookevents;
-$endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
-$endpoint->save();
-print $endpoint;
-}
-
-// Connect Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
-$endpoint->enabled_events = $stripearrayofwebhookevents;
-$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
-$endpoint->save();
-print $endpoint;
-}
-
-// Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
-$endpoint->enabled_events = $stripearrayofwebhookevents;
-$endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
-$endpoint->save();
-print $endpoint;
-}
-
-// Connect Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
-$endpoint->enabled_events = $stripearrayofwebhookevents;
-$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
-$endpoint->save();
-print $endpoint;
-}
-
 print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
 print '<input type="hidden" name="action" value="setvalue">';
@@ -202,6 +166,7 @@ print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("AccountParameter").'</td>';
 print '<td>'.$langs->trans("Value").'</td>';
+print '<td>'.$langs->trans("Status").'</td>';
 print "</tr>\n";
 
 print '<tr class="oddeven">';
@@ -213,19 +178,19 @@ print $langs->trans("StripeLiveEnabled").'</td><td>';
     $arrval = array('0' => $langs->trans("No"), '1' => $langs->trans("Yes"));
     print $form->selectarray("STRIPE_LIVE", $arrval, $conf->global->STRIPE_LIVE);
 }
-print '</td></tr>';
+print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="fieldrequired">'.$langs->trans("STRIPE_TEST_PUBLISHABLE_KEY").'</span></td><td>';
 	print '<input class="minwidth300" type="text" name="STRIPE_TEST_PUBLISHABLE_KEY" value="'.$conf->global->STRIPE_TEST_PUBLISHABLE_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': pk_test_xxxxxxxxxxxxxxxxxxxxxxxx';
-	print '</td></tr>';
+	print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="titlefield fieldrequired">'.$langs->trans("STRIPE_TEST_SECRET_KEY").'</span></td><td>';
 	print '<input class="minwidth300" type="text" name="STRIPE_TEST_SECRET_KEY" value="'.$conf->global->STRIPE_TEST_SECRET_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': sk_test_xxxxxxxxxxxxxxxxxxxxxxxx';
-	print '</td></tr>';
+	print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_KEY").'</span></td><td>';
@@ -237,7 +202,15 @@ print '</td></tr>';
 	$out.= '<input type="text" id="onlinetestwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestwebhookurl", 0);
 	print '<br />'.$out; 
-	print '</td></tr>';
+	print '</td><td>';
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
+$endpoint->save();
+//print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut6');
+  print'</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_CONNECT_KEY").'</span></td><td>';
@@ -249,19 +222,27 @@ print '</td></tr>';
 	$out.= '<input type="text" id="onlinetestconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestconnectwebhookurl", 0);
 	print '<br />'.$out; 
-	print '</td></tr>';
+	print '</td><td>';
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
+$endpoint->save();
+print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut6'); 
+  print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="fieldrequired">'.$langs->trans("STRIPE_LIVE_PUBLISHABLE_KEY").'</span></td><td>';
 	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_PUBLISHABLE_KEY" value="'.$conf->global->STRIPE_LIVE_PUBLISHABLE_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': pk_live_xxxxxxxxxxxxxxxxxxxxxxxx';
-	print '</td></tr>';
+	print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="fieldrequired">'.$langs->trans("STRIPE_LIVE_SECRET_KEY").'</span></td><td>';
 	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_SECRET_KEY" value="'.$conf->global->STRIPE_LIVE_SECRET_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': sk_live_xxxxxxxxxxxxxxxxxxxxxxxx';
-	print '</td></tr>';
+	print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_KEY").'</span></td><td>';
@@ -273,7 +254,15 @@ print '</td></tr>';
 	$out.= '<input type="text" id="onlinelivewebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinelivewebhookurl", 0);
 	print '<br />'.$out; 
-	print '</td></tr>';
+	print '</td><td>';
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
+$endpoint->save();
+print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut6'); 
+  print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
@@ -285,7 +274,15 @@ print '</td></tr>';
 	$out.= '<input type="text" id="onlineliveconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlineliveconnectwebhookurl", 0);
   print '<br />'.$out; 
-	print '</td></tr>';
+	print '</td><td>';
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
+$endpoint->save();
+print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut6'); 
+  print '</td></tr>';
 
 print '</table>';
 

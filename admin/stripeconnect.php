@@ -203,7 +203,8 @@ print '</td><td></td></tr>';
 	$out.= ajax_autoselect("onlinetestwebhookurl", 0);
 	print '<br />'.$out; 
 	print '</td><td>';
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && !empty($conf->global->STRIPE_TEST_SECRET_KEY) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
+\Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
@@ -223,7 +224,8 @@ print $endpoint;
 	$out.= ajax_autoselect("onlinetestconnectwebhookurl", 0);
 	print '<br />'.$out; 
 	print '</td><td>';
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_TEST_SECRET_KEY) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
+\Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
@@ -255,7 +257,8 @@ print $endpoint;
 	$out.= ajax_autoselect("onlinelivewebhookurl", 0);
 	print '<br />'.$out; 
 	print '</td><td>';
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE_SECRET_KEY) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
+\Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
@@ -275,7 +278,8 @@ print $endpoint;
 	$out.= ajax_autoselect("onlineliveconnectwebhookurl", 0);
   print '<br />'.$out; 
 	print '</td><td>';
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE_SECRET_KEY) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
+\Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);

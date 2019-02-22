@@ -149,7 +149,7 @@ $head=stripeconnectadmin_prepare_head();
 $stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
 
 // Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
@@ -158,7 +158,7 @@ print $endpoint;
 }
 
 // Connect Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
@@ -167,7 +167,7 @@ print $endpoint;
 }
 
 // Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
@@ -176,7 +176,7 @@ print $endpoint;
 }
 
 // Connect Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);

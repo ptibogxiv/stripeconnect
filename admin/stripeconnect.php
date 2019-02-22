@@ -312,6 +312,7 @@ print '</td></tr>';
 }
 
 // Choose principal/platform entity
+if (empty($conf->multicompany->enabled)) {
 $dao = new DaoMulticompany($db);
 $dao->getEntities($login, $exclude);
 print '<tr class="oddeven"><td>'.$langs->trans("STRIPECONNECT_PRINCIPAL").'</td>';
@@ -357,6 +358,7 @@ print '<td>';
 		print ajax_combobox('STRIPECONNECT_PRINCIPAL');
 
 print '</td></tr>';
+}
 
 print '<tr class="oddeven"><td>'.$langs->trans("STRIPE_APPLICATION_FEE_PLATFORM").'</td><td>';
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE_PERCENT" value="'.price($conf->global->STRIPE_APPLICATION_FEE_PERCENT).'">';

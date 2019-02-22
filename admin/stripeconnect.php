@@ -277,7 +277,7 @@ print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_LIVe_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'"><br>';
+  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'"><br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';

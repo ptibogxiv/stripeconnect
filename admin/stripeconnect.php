@@ -86,21 +86,6 @@ if ($action == 'setvalue' && $user->admin)
     }
 }
 
-//if ($action=="setlive")
-//{
-//	$liveenable = GETPOST('value','int');
-//	$res = dolibarr_set_const($db, "STRIPE_LIVE", $liveenable,'yesno',0,'',0);
-//	if (! $res > 0) $error++;
-//	if (! $error)
-//	{
-//		setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
-//	}
-//	else
-//	{
-//		setEventMessages($langs->trans("Error"), null, 'errors');
-//	}
-//}
-
 if ($action=="mode")
 {
 	$modeenable = GETPOST('platform','int');
@@ -115,6 +100,20 @@ if ($action=="mode")
 		setEventMessages($langs->trans("Error"), null, 'errors');
 	}
 }
+
+if ($action=="setlive")
+{
+	$liveenable = GETPOST('value', 'int');
+	$res = dolibarr_set_const($db, "STRIPE_LIVE", $liveenable, 'yesno', 0, '', $conf->entity);
+	if ($res > 0) {
+		setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+	}
+	else
+	{
+		setEventMessages($langs->trans("Error"), null, 'errors');
+	}
+}
+//TODO: import script for stripe account saving in alone or connect mode for stripe.class.php
 
 
 /*
@@ -197,22 +196,16 @@ print '<td>'.$langs->trans("AccountParameter").'</td>';
 print '<td>'.$langs->trans("Value").'</td>';
 print "</tr>\n";
 
-//print '<tr class="oddeven">';
-//print '<td class="titlefield">';
-//print $langs->trans("StripeLiveEnabled").'</td><td>';
-//if (!empty($conf->global->STRIPE_LIVE))
-//{
-//	print '<a href="'.$_SERVER['PHP_SELF'].'?action=setlive&value=0">';
-//	print img_picto($langs->trans("Activated"),'switch_on');
-//	print '</a>';
-//}
-//else
-//{
-//	print '<a href="'.$_SERVER['PHP_SELF'].'?action=setlive&value=1">';
-//	print img_picto($langs->trans("Disabled"),'switch_off');
-//	print '</a>';
-//}
-//print '</td></tr>';
+print '<tr class="oddeven">';
+print '<td class="titlefield">';
+print $langs->trans("StripeLiveEnabled").'</td><td>';
+  if ($conf->use_javascript_ajax) {
+    print ajax_constantonoff('STRIPE_LIVE');
+} else {
+    $arrval = array('0' => $langs->trans("No"), '1' => $langs->trans("Yes"));
+    print $form->selectarray("STRIPE_LIVE", $arrval, $conf->global->STRIPE_LIVE);
+}
+print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="fieldrequired">'.$langs->trans("STRIPE_TEST_PUBLISHABLE_KEY").'</span></td><td>';

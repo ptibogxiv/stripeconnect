@@ -51,8 +51,12 @@ if ($action == 'setvalue' && $user->admin)
 	if (! $result > 0) $error++;
 	$result=dolibarr_set_const($db, "STRIPE_LIVE_SECRET_KEY",GETPOST('STRIPE_LIVE_SECRET_KEY','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;
-  	$result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_KEY",GETPOST('STRIPE_TEST_WEBHOOK_KEY','alpha'),'chaine',0,'',0);
+  $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_ID",GETPOST('STRIPE_TEST_WEBHOOK_ID','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;
+  $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_KEY",GETPOST('STRIPE_TEST_WEBHOOK_KEY','alpha'),'chaine',0,'',0);
+	if (! $result > 0) $error++;  	
+  $result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_CONNECT_ID",GETPOST('STRIPE_TEST_WEBHOOK_CONNECT_ID','alpha'),'chaine',0,'',0);
+	if (! $result > 0) $error++;  
 	$result=dolibarr_set_const($db, "STRIPE_TEST_WEBHOOK_CONNECT_KEY",GETPOST('STRIPE_TEST_WEBHOOK_CONNECT_KEY','alpha'),'chaine',0,'',0);
 	if (! $result > 0) $error++;
 	$result=dolibarr_set_const($db, "STRIPE_LIVE_WEBHOOK_KEY",GETPOST('STRIPE_LIVE_WEBHOOK_KEY','alpha'),'chaine',0,'',0);
@@ -146,7 +150,7 @@ $stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending
 
 // Test Webhook
 if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 $endpoint->save();
@@ -155,7 +159,7 @@ print $endpoint;
 
 // Connect Test Webhook
 if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
 $endpoint->save();
@@ -164,7 +168,7 @@ print $endpoint;
 
 // Live Webhook
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Aj17AK034Aqz8l5DjCrJA4u");
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
 $endpoint->save();
@@ -173,7 +177,7 @@ print $endpoint;
 
 // Connect Live Webhook
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
-$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1AkYE3K034Aqz8l5hvCVws7Y");
+$endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
 $endpoint->save();
@@ -221,6 +225,7 @@ print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_KEY").'</span></td><td>';
+  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_ID.'"><br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestWebhook").'<br>';
@@ -232,6 +237,7 @@ print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_CONNECT_KEY").'</span></td><td>';
+  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID.'"><br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestConnectWebhook").'<br>';
@@ -255,6 +261,7 @@ print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_KEY").'</span></td><td>';
+  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_CONNECT_ID.'"><br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveWebhook").'<br>';
@@ -266,6 +273,7 @@ print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
+  print '<input class="minwidth500" type="text" name="STRIPE_LIVe_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'"><br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';

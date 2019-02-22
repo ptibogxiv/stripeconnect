@@ -146,18 +146,22 @@ $head=stripeconnectadmin_prepare_head();
 $stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
 
 // Test Webhook
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 $endpoint->save();
 print $endpoint;
+}
 
 // Connect Test Webhook
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
 $endpoint->save();
 print $endpoint;
+}
 
 // Live Webhook
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) ) {

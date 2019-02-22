@@ -27,7 +27,7 @@ dol_include_once('/multicompany/class/dao_multicompany.class.php');
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/doleditor.class.php';
 require_once DOL_DOCUMENT_ROOT.'/product/class/html.formproduct.class.php';
-
+require_once DOL_DOCUMENT_ROOT.'/stripe/class/stripe.class.php';
 
 $servicename='Stripe';
 
@@ -122,6 +122,19 @@ if ($action=="mode")
  */
 
 $form=new Form($db);
+if (! empty($conf->stripe->enabled))
+{
+	$service = 'StripeTest';
+	$servicestatus = 0;
+	if (! empty($conf->global->STRIPE_LIVE) && ! GETPOST('forcesandbox', 'alpha'))
+	{
+		$service = 'StripeLive';
+		$servicestatus = 1;
+	}
+
+	$stripe=new Stripe($db);
+	$stripeacc = $stripe->getStripeAccount($service);
+}
 
 llxHeader('',$langs->trans("StripeConnectSetup"));
 
@@ -129,6 +142,40 @@ $linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToM
 print load_fiche_titre($langs->trans("ModuleSetup").' StripeConnect',$linkback);
 
 $head=stripeconnectadmin_prepare_head();
+
+$stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
+
+// Test Webhook
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
+$endpoint->save();
+print $endpoint;
+
+// Connect Test Webhook
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
+$endpoint->save();
+print $endpoint;
+
+// Live Webhook
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
+$endpoint->save();
+print $endpoint;
+}
+
+// Connect Live Webhook
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) ) {
+$endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
+$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
+$endpoint->save();
+print $endpoint;
+}
 
 print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';

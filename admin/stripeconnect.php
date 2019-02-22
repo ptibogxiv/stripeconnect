@@ -146,7 +146,7 @@ $head=stripeconnectadmin_prepare_head();
 $stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
 
 // Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && empty($conf->global->STRIPE_LIVE) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1C2QVRK034Aqz8l5Q9zAoLgn");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
@@ -155,7 +155,7 @@ print $endpoint;
 }
 
 // Connect Test Webhook
-if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) ) {
+if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && empty($conf->global->STRIPE_LIVE) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Az3F2K034Aqz8l5wpjnxzAw");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
@@ -164,7 +164,7 @@ print $endpoint;
 }
 
 // Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1Aj17AK034Aqz8l5DjCrJA4u");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
@@ -173,7 +173,7 @@ print $endpoint;
 }
 
 // Connect Live Webhook
-if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) ) {
+if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE) ) {
 $endpoint = \Stripe\WebhookEndpoint::retrieve("we_1AkYE3K034Aqz8l5hvCVws7Y");
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);

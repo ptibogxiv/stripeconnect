@@ -150,7 +150,7 @@ print load_fiche_titre($langs->trans("ModuleSetup").' StripeConnect',$linkback);
 
 $head=stripeconnectadmin_prepare_head();
 
-$stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','source.chargeable','customer.deleted');
+$stripearrayofwebhookevents=array('payout.created','payout.paid','charge.pending','charge.refunded','charge.succeeded','charge.failed','payment_intent.succeeded','payment_intent.payment_failed','source.chargeable','customer.deleted');
 
 print '<form method="post" action="'.$_SERVER["PHP_SELF"].'">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';

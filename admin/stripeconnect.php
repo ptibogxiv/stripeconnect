@@ -169,7 +169,8 @@ print "</tr>\n";
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_ID.'"><br>';
+  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_ID.'">';
+  print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestWebhook").'<br>';
@@ -184,13 +185,24 @@ $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 $endpoint->save();
-print $endpoint;
-} else print img_picto($langs->trans("inactive"),'statut6');
+if ($endpoint->status == 'enabled')
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print img_picto($langs->trans("Activated"),'switch_on');
+}
+else
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print img_picto($langs->trans("Disabled"),'switch_off');
+}
+//print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut5');
   print'</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID.'"><br>';
+  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID.'">';
+  print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestConnectWebhook").'<br>';
@@ -205,8 +217,18 @@ $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
 $endpoint->save();
-print $endpoint;
-} else print img_picto($langs->trans("inactive"),'statut6'); 
+if ($endpoint->status == 'enabled')
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print img_picto($langs->trans("Activated"),'switch_on');
+}
+else
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print img_picto($langs->trans("Disabled"),'switch_off');
+}
+//print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut5');
   print '</td></tr>';
 
 	print '<tr class="oddeven"><td>';
@@ -223,7 +245,8 @@ print $endpoint;
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_ID.'"><br>';
+  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_ID.'">';
+  print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveWebhook").'<br>';
@@ -238,13 +261,24 @@ $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
 $endpoint->save();
-print $endpoint;
-} else print img_picto($langs->trans("inactive"),'statut6'); 
+if ($endpoint->status == 'enabled')
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print img_picto($langs->trans("Activated"),'switch_on');
+}
+else
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print img_picto($langs->trans("Disabled"),'switch_off');
+}
+//print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut5');
   print '</td></tr>';
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'"><br>';
+  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'">';
+  print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
 	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';
@@ -259,8 +293,18 @@ $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK
 $endpoint->enabled_events = $stripearrayofwebhookevents;
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
 $endpoint->save();
-print $endpoint;
-} else print img_picto($langs->trans("inactive"),'statut6'); 
+if ($endpoint->status == 'enabled')
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print img_picto($langs->trans("Activated"),'switch_on');
+}
+else
+{
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print img_picto($langs->trans("Disabled"),'switch_off');
+}
+//print $endpoint;
+} else print img_picto($langs->trans("inactive"),'statut5');
   print '</td></tr>';
 
 print '</table>';

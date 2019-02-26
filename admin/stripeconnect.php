@@ -109,21 +109,6 @@ if ($action=="mode")
 	}
 }
 
-if ($action=="setlive")
-{
-	$liveenable = GETPOST('value', 'int');
-	$res = dolibarr_set_const($db, "STRIPE_LIVE", $liveenable, 'yesno', 0, '', $conf->entity);
-	if ($res > 0) {
-		setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
-	}
-	else
-	{
-		setEventMessages($langs->trans("Error"), null, 'errors');
-	}
-}
-//TODO: import script for stripe account saving in alone or connect mode for stripe.class.php
-
-
 /*
  *	View
  */
@@ -168,17 +153,6 @@ print '<td>'.$langs->trans("AccountParameter").'</td>';
 print '<td>'.$langs->trans("Value").'</td>';
 print '<td>'.$langs->trans("Status").'</td>';
 print "</tr>\n";
-
-print '<tr class="oddeven">';
-print '<td class="titlefield">';
-print $langs->trans("StripeLiveEnabled").'</td><td>';
-  if ($conf->use_javascript_ajax) {
-    print ajax_constantonoff('STRIPE_LIVE');
-} else {
-    $arrval = array('0' => $langs->trans("No"), '1' => $langs->trans("Yes"));
-    print $form->selectarray("STRIPE_LIVE", $arrval, $conf->global->STRIPE_LIVE);
-}
-print '</td><td></td></tr>';
 
 	print '<tr class="oddeven"><td>';
 	print '<span class="fieldrequired">'.$langs->trans("STRIPE_TEST_PUBLISHABLE_KEY").'</span></td><td>';

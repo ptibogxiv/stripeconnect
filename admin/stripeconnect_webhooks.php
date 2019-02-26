@@ -36,7 +36,10 @@ $form=new Form($db);
 
 llxHeader('',$langs->trans("StripeConnectSetup"));
 
+$linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToModuleList").'</a>';
+print load_fiche_titre($langs->trans("ModuleSetup").' StripeConnect',$linkback);
 
+$head=stripeconnectadmin_prepare_head();
 
 require_once DOL_DOCUMENT_ROOT.'/stripe/class/stripe.class.php';
 $stripe=new Stripe($db);

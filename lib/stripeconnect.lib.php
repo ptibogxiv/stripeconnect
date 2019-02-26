@@ -37,6 +37,11 @@ function stripeconnectadmin_prepare_head()
 	$head[$h][1] = $langs->trans("StripeConnect");
 	$head[$h][2] = 'stripeaccount';
 	$h++;
+  
+  	$head[$h][0] = dol_buildpath("/stripeconnect/admin/stripeconnect_webhooks.php",1);
+	$head[$h][1] = $langs->trans("Webhooks");
+	$head[$h][2] = 'stripewebhooks';
+	$h++;
 
 	$object=new stdClass();
 

@@ -75,7 +75,9 @@ if ($action == 'setvalue' && $user->admin)
   if (! $result > 0) $error++;
   $result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_MINIMAL",price2num(GETPOST('STRIPE_APPLICATION_FEE_MINIMAL','alpha')),'chaine',0,'',0);
   if (! $result > 0) $error++;
-
+  $result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_MAXIMAL",price2num(GETPOST('STRIPE_APPLICATION_FEE_MAXIMAL','alpha')),'chaine',0,'',0);
+  if (! $result > 0) $error++;
+  
 	$result=dolibarr_set_const($db, "STRIPE_APPLICATION_MENSUAL_MINIMAL",price2num(GETPOST('STRIPE_APPLICATION_MENSUAL_MINIMAL','alpha')),'chaine',0,'',0);
     if (! $result > 0) $error++;
     	$result=dolibarr_set_const($db, "STRIPE_APPLICATION_FEE_PRODUCT_ID",GETPOST('STRIPE_APPLICATION_FEE_PRODUCT_ID','alpha'),'chaine',0,'',0);
@@ -343,7 +345,7 @@ print '<tr class="oddeven"><td>'.$langs->trans("STRIPE_APPLICATION_FEE_PLATFORM"
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE_PERCENT" value="'.price($conf->global->STRIPE_APPLICATION_FEE_PERCENT).'">';
 print '% + ';
 print '<input size="5" type="text" name="STRIPE_APPLICATION_FEE" value="'.price($conf->global->STRIPE_APPLICATION_FEE).'">';
-print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("with minimum of").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).'</td></tr>';
+print ''.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("with minimum of").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MINIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MINIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).' '.$langs->trans("and maximum of").' <input size="5" type="text" name="STRIPE_APPLICATION_FEE_MAXIMAL" value="'.price($conf->global->STRIPE_APPLICATION_FEE_MAXIMAL).'"> '.$langs->getCurrencySymbol($conf->currency).'</td></tr>';
 
 print '<tr class="oddeven"><td>';
 print $langs->trans("STRIPE_APPLICATION_FEE_PLATFORM_MINIMAL").'</td><td>';

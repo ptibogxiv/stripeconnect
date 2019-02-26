@@ -183,16 +183,21 @@ if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && !empty($conf->global->STR
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
+if ( GETPOST('webhook','alpha') == $conf->global->STRIPE_TEST_WEBHOOK_ID && empty( GETPOST('status','alpha') )) {
+$endpoint->disabled = true; 
+} else {
+$endpoint->disabled = false;
+}
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 $endpoint->save();
 if ($endpoint->status == 'enabled')
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=0">';
 	print img_picto($langs->trans("Activated"),'switch_on');
 }
 else
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=1">';
 	print img_picto($langs->trans("Disabled"),'switch_off');
 }
 //print $endpoint;
@@ -215,16 +220,21 @@ if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && !empty($conf->glo
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
+if ( GETPOST('webhook','alpha') == $conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID && empty( GETPOST('status','alpha') )) {
+$endpoint->disabled = true; 
+} else {
+$endpoint->disabled = false;
+}
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
 $endpoint->save();
 if ($endpoint->status == 'enabled')
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=0">';
 	print img_picto($langs->trans("Activated"),'switch_on');
 }
 else
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=1">';
 	print img_picto($langs->trans("Disabled"),'switch_off');
 }
 //print $endpoint;
@@ -259,16 +269,21 @@ if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STR
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
+if ( GETPOST('webhook','alpha') == $conf->global->STRIPE_LIVE_WEBHOOK_ID && empty( GETPOST('status','alpha') )) {
+$endpoint->disabled = true; 
+} else {
+$endpoint->disabled = false;
+}
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php', 2);
 $endpoint->save();
 if ($endpoint->status == 'enabled')
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=0">';
 	print img_picto($langs->trans("Activated"),'switch_on');
 }
 else
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=1">';
 	print img_picto($langs->trans("Disabled"),'switch_off');
 }
 //print $endpoint;
@@ -291,16 +306,21 @@ if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->glo
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID);
 $endpoint->enabled_events = $stripearrayofwebhookevents;
+if ( GETPOST('webhook','alpha') == $conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID && empty( GETPOST('status','alpha') )) {
+$endpoint->disabled = true; 
+} else {
+$endpoint->disabled = false;
+}
 $endpoint->url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
 $endpoint->save();
 if ($endpoint->status == 'enabled')
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=disabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=0">';
 	print img_picto($langs->trans("Activated"),'switch_on');
 }
 else
 {
-	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&active=enabled">';
+	print '<a href="'.$_SERVER['PHP_SELF'].'?action=ipn&webhook='.$endpoint->id.'&status=1">';
 	print img_picto($langs->trans("Disabled"),'switch_off');
 }
 //print $endpoint;

@@ -124,8 +124,13 @@ class modStripeConnect extends DolibarrModules {
 	 */
 	public function init($options = '')
 	{
-		$result=$this->load_tables();
-    
+		$sql = array(
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
+      "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
+		);
+
 		return $this->_init($sql);
 	}
 
@@ -139,9 +144,14 @@ class modStripeConnect extends DolibarrModules {
 	 */
 	public function remove($options = '')
 	{
-//$sql = array("DELETE ".MAIN_DB_PREFIX."menu WHERE module='stripeconnect'");
+		$sql = array(
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
+      "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
+			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
+		);
 
-		return $this->_remove($sql);
+		return $this->_remove($sql, $options);
 	}
 
 

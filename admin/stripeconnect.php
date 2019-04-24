@@ -152,7 +152,7 @@ print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("AccountParameter").'</td>';
 print '<td>'.$langs->trans("Value").'</td>';
-print '<td>'.$langs->trans("Status").'</td>';
+print '<td></td>';
 print "</tr>\n";
 
 	print '<tr class="oddeven"><td>';
@@ -169,15 +169,15 @@ print "</tr>\n";
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_ID.'">';
+  print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_ID.'">';
   print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
-	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
+	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?test', 2);
+  $url = dol_buildpath('/public/stripe/ipn.php?test', 3);
 	$out.= '<input type="text" id="onlinetestwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestwebhookurl", 0);
-	print '<br />'.$out; 
+	print '<br>'.$out; 
 	print '</td><td>';
 if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && !empty($conf->global->STRIPE_TEST_SECRET_KEY) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
@@ -207,15 +207,15 @@ else
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_TEST_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID.'">';
+  print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID.'">';
   print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
-	print '<input class="minwidth500" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
+	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestConnectWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
+  $url = dol_buildpath('/public/stripe/ipn.php?connect&test', 3);
 	$out.= '<input type="text" id="onlinetestconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestconnectwebhookurl", 0);
-	print '<br />'.$out; 
+	print '<br>'.$out; 
 	print '</td><td>';
 if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_TEST_SECRET_KEY) && !empty($conf->global->STRIPE_TEST_WEBHOOK_CONNECT_ID) ) {
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
@@ -257,15 +257,15 @@ else
 
 	print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_ID.'">';
+  print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_ID.'">';
   print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
-	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
+	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php', 2);
+  $url = dol_buildpath('/public/stripe/ipn.php', 3);
 	$out.= '<input type="text" id="onlinelivewebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinelivewebhookurl", 0);
-	print '<br />'.$out; 
+	print '<br>'.$out; 
 	print '</td><td>';
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_KEY) && !empty($conf->global->STRIPE_LIVE_SECRET_KEY) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_ID) ) {
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);
@@ -295,15 +295,15 @@ else
   
   print '<tr class="oddeven"><td>';
 	print '<span>'.$langs->trans("STRIPE_LIVE_WEBHOOK_CONNECT_KEY").'</span></td><td>';
-  print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'">';
+  print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_ID" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID.'">';
   print ' &nbsp; '.$langs->trans("Example").': we_xxxxxxxxxxxxxxxxxxxxxxxx<br>';
-	print '<input class="minwidth500" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
+	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
+  $url = dol_buildpath('/public/stripe/ipn.php?connect', 3);
 	$out.= '<input type="text" id="onlineliveconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlineliveconnectwebhookurl", 0);
-  print '<br />'.$out; 
+  print '<br>'.$out; 
 	print '</td><td>';
 if ( !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY) && !empty($conf->global->STRIPE_LIVE_SECRET_KEY) && !empty($conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_ID) ) {
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_LIVE_SECRET_KEY);

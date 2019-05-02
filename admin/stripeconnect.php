@@ -174,7 +174,7 @@ print "</tr>\n";
 	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?test', 3);
+  $url = dol_buildpath('/public/stripe/ipn.php?test', 2);
 	$out.= '<input type="text" id="onlinetestwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestwebhookurl", 0);
 	print '<br>'.$out; 
@@ -212,7 +212,7 @@ else
 	print '<input class="minwidth300" type="text" name="STRIPE_TEST_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_TEST_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForTestConnectWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?connect&test', 3);
+  $url = dol_buildpath('/public/stripe/ipn.php?connect&test', 2);
 	$out.= '<input type="text" id="onlinetestconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinetestconnectwebhookurl", 0);
 	print '<br>'.$out; 
@@ -262,7 +262,7 @@ else
 	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php', 3);
+  $url = dol_buildpath('/public/stripe/ipn.php', 2);
 	$out.= '<input type="text" id="onlinelivewebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlinelivewebhookurl", 0);
 	print '<br>'.$out; 
@@ -300,7 +300,7 @@ else
 	print '<input class="minwidth300" type="text" name="STRIPE_LIVE_WEBHOOK_CONNECT_KEY" value="'.$conf->global->STRIPE_LIVE_WEBHOOK_CONNECT_KEY.'">';
 	print ' &nbsp; '.$langs->trans("Example").': whsec_xxxxxxxxxxxxxxxxxxxxxxxx';
   $out = img_picto('', 'object_globe.png').' '.$langs->trans("ToOfferALinkForLiveConnectWebhook").'<br>';
-  $url = dol_buildpath('/public/stripe/ipn.php?connect', 3);
+  $url = dol_buildpath('/public/stripe/ipn.php?connect', 2);
 	$out.= '<input type="text" id="onlineliveconnectwebhookurl" class="quatrevingtpercent" value="'.$url.'">';
 	$out.= ajax_autoselect("onlineliveconnectwebhookurl", 0);
   print '<br>'.$out; 

@@ -182,7 +182,7 @@ print "</tr>\n";
 if ( !empty($conf->global->STRIPE_TEST_WEBHOOK_KEY) && !empty($conf->global->STRIPE_TEST_SECRET_KEY) && !empty($conf->global->STRIPE_TEST_WEBHOOK_ID) ) {
 \Stripe\Stripe::setApiKey($conf->global->STRIPE_TEST_SECRET_KEY);
 $endpoint = \Stripe\WebhookEndpoint::retrieve($conf->global->STRIPE_TEST_WEBHOOK_ID);
-$endpoint->enabled_events = $stripearrayofwebhookevents;
+$endpoint->enabled_events = $stripearrayofwebhookevents;  
 if ( GETPOST('webhook','alpha') == $conf->global->STRIPE_TEST_WEBHOOK_ID ) {
 if ( empty( GETPOST('status','alpha') )) {
 $endpoint->disabled = true; 

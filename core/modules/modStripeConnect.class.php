@@ -74,7 +74,7 @@ class modStripeConnect extends DolibarrModules {
 		
     
     // Dependencies
-    $this->depends = array('modMultiCompany');		// List of modules id that must be enabled if this module is enabled
+    $this->depends = array();		// List of modules id that must be enabled if this module is enabled
     $this->requiredby = array();	// List of modules id to disable if this one is disabled
     $this->conflictwith = array();
     $this->phpmin = array(5,0);					// Minimum version of PHP required by module

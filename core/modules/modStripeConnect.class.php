@@ -109,18 +109,7 @@ class modStripeConnect extends DolibarrModules {
 
 		// Main menu entries
         $r=0;
-		$this->menu[$r] = array(
-			'fk_menu' => 'fk_mainmenu=bank,fk_leftmenu=stripe',
-			'type' => 'left',
-			'titre' => 'StripeAccount',
-			'url' => '/stripeconnect/account.php',
-			'langs' => 'stripeconnect',
-			'position' => 105,
-			'enabled' => '$conf->stripe->enabled && $conf->banque->enabled',
-			'perms' => '$user->rights->banque->lire',
-			'target' => '',
-			'user' => 0
-		);			// List of menus to add
+		$this->menu[$r] = array();			// List of menus to add
         $r++;
   }
 

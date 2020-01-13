@@ -49,6 +49,46 @@ class StripeConnexion extends CommonObject
 		$this->db = $db;
 
 	}
+  
+    /**
+     * Charge dans cache la liste des catégories d'hôtes (paramétrable dans dictionnaire)
+     *
+     * @return int Nb lignes chargees, 0 si deja chargees, <0 si ko
+     */
+    public function load_cache_categories_hosts()
+    {
+        global $langs;
+
+        if (count($this->cache_categories_hosts)) {
+            return 0;
+        }
+        // Cache deja charge
+
+        $sql = "SELECT rowid, code, label, stripe_enabled, active, favorite";
+        $sql .= " FROM " . MAIN_DB_PREFIX . "c_mcc";
+        $sql .= " WHERE active > 0";
+        $sql .= " ORDER BY pos ASC";
+        dol_syslog(get_class($this) . "::load_cache_categories_hosts sql=" . $sql, LOG_DEBUG);
+        $resql = $this->db->query($sql);
+        if ($resql) {
+            $num = $this->db->num_rows($resql);
+            $i = 0;
+            while ($i < $num) {
+                $obj = $this->db->fetch_object($resql);
+                // Si traduction existe, on l'utilise, sinon on prend le libelle par defaut
+                $label = ($langs->trans("TicketTypeShort" . $obj->code) != ("HostCategoryShort" . $obj->code) ? $langs->trans("HostCategoryShort" . $obj->code) : ($obj->label != '-' ? $obj->label : ''));
+                $this->cache_categories_hosts[$obj->rowid]['code'] = $obj->code;
+                $this->cache_categories_hosts[$obj->rowid]['label'] = $label;
+                $this->cache_categories_hosts[$obj->rowid]['use_default'] = $obj->use_default;
+                $this->cache_categories_hosts[$obj->rowid]['pos'] = $obj->pos;
+                $i++;
+            }
+            return $num;
+        } else {
+            dol_print_error($this->db);
+            return -1;
+        }
+    }
 	
 	/**
 	 * 

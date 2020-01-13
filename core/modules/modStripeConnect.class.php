@@ -123,8 +123,26 @@ class modStripeConnect extends DolibarrModules {
 			'target' => '',
 			'user' => 0
 		);
-  }
 
+        // Dictionnaries
+        if (! isset($conf->stripeconnect) || ! isset($conf->stripeconnect->enabled)) {
+            $conf->stripeconnect = new stdClass();
+            $conf->stripeconnect->enabled = 0;
+        }
+
+        $this->dictionaries = array(
+            'langs' => 'stripeconnect@stripeconnect',
+            'tabname' => array(MAIN_DB_PREFIX . "c_mcc"),
+            'tablib' => array("MerchantCategoryCodes"),
+            'tabsql' => array('SELECT f.rowid as rowid, f.code, f.label, f.category, f.stripe_enabled, f.active, f.favorite FROM ' . MAIN_DB_PREFIX . 'c_mcc as f'),
+            'tabsqlsort' => array("code ASC"),
+            'tabfield' => array("code,label,category,stripe_enabled,favorite"),
+            'tabfieldvalue' => array("code,label,category,stripe_enabled,active,favorite"),
+            'tabfieldinsert' => array("code,label,category,stripe_enabled,active,favorite"),
+            'tabrowid' => array("rowid"),
+            'tabcond' => array($conf->stripeconnect->enabled),
+        );
+  }
    	/**
 	 * Function called when module is enabled.
 	 * The init function adds tabs, constants, boxes, permissions and menus (defined in constructor) into Dolibarr database.

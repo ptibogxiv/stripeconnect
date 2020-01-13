@@ -55,7 +55,7 @@ class StripeConnexion extends CommonObject
      *
      * @return int Nb lignes chargees, 0 si deja chargees, <0 si ko
      */
-    public function load_cache_categories_hosts()
+    public function load_cache_merchantcategorycodes()
     {
         global $langs;
 
@@ -65,10 +65,10 @@ class StripeConnexion extends CommonObject
         // Cache deja charge
 
         $sql = "SELECT rowid, code, label, stripe_enabled, active, favorite";
-        $sql .= " FROM " . MAIN_DB_PREFIX . "c_mcc";
+        $sql .= " FROM " . MAIN_DB_PREFIX . "c_merchantcategorycodes";
         $sql .= " WHERE active > 0";
-        $sql .= " ORDER BY pos ASC";
-        dol_syslog(get_class($this) . "::load_cache_categories_hosts sql=" . $sql, LOG_DEBUG);
+        $sql .= " ORDER BY code ASC";
+        dol_syslog(get_class($this) . "::load_cache_merchantcategorycodes sql=" . $sql, LOG_DEBUG);
         $resql = $this->db->query($sql);
         if ($resql) {
             $num = $this->db->num_rows($resql);
@@ -79,8 +79,9 @@ class StripeConnexion extends CommonObject
                 $label = ($langs->trans("TicketTypeShort" . $obj->code) != ("HostCategoryShort" . $obj->code) ? $langs->trans("HostCategoryShort" . $obj->code) : ($obj->label != '-' ? $obj->label : ''));
                 $this->cache_categories_hosts[$obj->rowid]['code'] = $obj->code;
                 $this->cache_categories_hosts[$obj->rowid]['label'] = $label;
-                $this->cache_categories_hosts[$obj->rowid]['use_default'] = $obj->use_default;
-                $this->cache_categories_hosts[$obj->rowid]['pos'] = $obj->pos;
+                $this->cache_categories_hosts[$obj->rowid]['stripe_enabled'] = $obj->stripe_enabled;
+                $this->cache_categories_hosts[$obj->rowid]['active'] = $obj->active;
+                $this->cache_categories_hosts[$obj->rowid]['favorite'] = $obj->favorite;
                 $i++;
             }
             return $num;

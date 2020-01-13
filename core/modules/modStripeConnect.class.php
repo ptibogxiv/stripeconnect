@@ -101,7 +101,8 @@ class modStripeConnect extends DolibarrModules {
 
         // New pages on tabs
         // -----------------
-        $this->tabs = array();
+    $this->tabs = array();
+    $this->tabs[] = array('data' => 'thirdparty:+tabStripeAccount:stripeconnect:stripeconnect@stripeconnect:$user->rights->hosting->read:/stripeconnect/account.php?socid=__ID__');
 
         // Boxes
         //------
@@ -162,6 +163,7 @@ class modStripeConnect extends DolibarrModules {
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
       "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
+      "DELETE FROM ".MAIN_DB_PREFIX." WHERE entity = '0' AND url = '/stripeconnect/account.php' and position = '104'"
 		);
 
 		return $this->_remove($sql, $options);

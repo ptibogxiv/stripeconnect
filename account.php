@@ -115,7 +115,8 @@ print '</td></tr>'."\n";
 
 // Company
 print '<tr class="oddeven"><td><label for="name">'.$langs->trans("MerchantCategoryCode").'</label></td><td>';
-print $account->business_profile->mcc;
+print $langs->getLabelFromKey($db, $account->business_profile->mcc, 'c_merchantcategorycodes', 'code', 'label');
+print " (".$account->business_profile->mcc.")";
 //<input name="nom" id="name" class="minwidth200" value="'. dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_NOM?$conf->global->MAIN_INFO_SOCIETE_NOM: GETPOST("nom", 'nohtml')) . '"'.(empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) ? '' : ' autofocus="autofocus"').'>
 print '</td></tr>'."\n";
 

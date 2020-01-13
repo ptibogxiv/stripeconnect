@@ -39,7 +39,7 @@ class modStripeConnect extends DolibarrModules {
 	 * @param DoliDB		Database handler
 	 */
 	function __construct($db) {
-		global $conf;
+    global $langs, $conf;
 		
 		$this->db = $db;
 		
@@ -134,13 +134,14 @@ class modStripeConnect extends DolibarrModules {
             'langs' => 'stripeconnect@stripeconnect',
             'tabname' => array(MAIN_DB_PREFIX . "c_merchantcategorycodes"),
             'tablib' => array("MerchantCategoryCodes"),
-            'tabsql' => array('SELECT f.rowid as rowid, f.code, f.label, f.stripe_enabled, f.active, f.favorite FROM ' . MAIN_DB_PREFIX . 'c_merchantcategorycodes as f'),
+            'tabsql' => array('SELECT f.rowid as rowid, f.code, f.label, f.stripe_enabled, f.active, f.use_default FROM ' . MAIN_DB_PREFIX . 'c_merchantcategorycodes as f'),
             'tabsqlsort' => array("code ASC"),
-            'tabfield' => array("code,label,stripe_enabled,favorite"),
-            'tabfieldvalue' => array("code,label,stripe_enabled,active,favorite"),
-            'tabfieldinsert' => array("code,label,stripe_enabled,active,favorite"),
+            'tabfield' => array("code,label,stripe_enabled,use_default"),
+            'tabfieldvalue' => array("code,label,stripe_enabled,use_default,active"),
+            'tabfieldinsert' => array("code,label,stripe_enabled,use_default,active"),
             'tabrowid' => array("rowid"),
             'tabcond' => array($conf->stripeconnect->enabled),
+            'tabhelp' => array(array('code'=>$langs->trans("EnterAnyCode"), 'use_default'=>$langs->trans("Enter0or1"))),
         );
   }
    	/**

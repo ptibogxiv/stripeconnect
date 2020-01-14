@@ -386,24 +386,32 @@ if (!empty($account->company->address->state)) print getState($account->company-
 //	$state_id = $tmp[0];
 //}
 //$formcompany->select_departement($state_id, $mysoc->country_code, 'state_id');
-print '</td></tr>'."\n"; 
+print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="phone">'.$langs->trans("Phone").'</label></td><td>';
 print $account->company->phone;
 //print '<input name="tel" id="phone" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_TEL).'">';
-print '</td></tr>';
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="web">'.$langs->trans("Web").'</label></td><td>';
 print $account->business_profile->url;
 //print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
-print '</td></tr>';
-print '</td></tr>'."\n"; 
+print '</td></tr>'."\n";
 
-print '<tr class="oddeven"><td><label for="web">'.$langs->trans("TaxId").'</label></td><td>';
+print '<tr class="oddeven"><td><label for="profid1">'.$langs->transcountry("ProfId1", $mysoc->country_code).'</label></td><td>';
 print dolGetStatus($account->company->tax_id_provided, $account->company->tax_id_provided, '', ($account->company->tax_id_provided) ? 'status4' : 'status0', 3);
 //print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
-print '</td></tr>';
+print '</td></tr>'."\n";
+
+print '<tr class="oddeven"><td><label for="intra_vat">'.$langs->trans("VATIntra").'</label></td><td>';
+print dolGetStatus($account->company->vat_id_provided, $account->company->vat_id_provided, '', ($account->company->vat_id_provided) ? 'status4' : 'status0', 3);
+//print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
+print '</td></tr>'."\n";
+
+print '<tr class="oddeven"><td><label for="verification">'.$langs->trans("Verification").'</label></td><td>';
+print $account->company->verification->document->front;
+print " ".dolGetStatus($account->company->verification->document->details, $account->company->verification->document->details_code, '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 3);
+//print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
 print '</td></tr>'."\n";
 
 // Settings
@@ -559,6 +567,9 @@ print dolGetStatus($account->details_submitted, $account->details_submitted, '',
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Requirements").'</label></td><td>';
+if (empty($account->requirements->currently_due) && empty($account->requirements->eventually_due) && empty($account->requirements->past_due)) {
+print dolGetStatus($langs->trans("Completed"), $langs->trans("Completed"), '', 'status4', 5);
+} else {
 if (!empty($account->requirements->current_deadline)) print $langs->trans("Deadline").": ".dol_print_date($account->requirements->current_deadline, 'dayhour');
 if (!empty($account->requirements->currently_due)) {
 print '<br>'.$langs->trans("Currently").':';
@@ -580,6 +591,7 @@ if (!empty($account->requirements->pending_verification)) {
 print '<br>'.$langs->trans("Waiting").':';
 foreach ($account->requirements->pending_verification as $pending) {
 print '<li>'.$pending.'</li>';
+}
 }
 }
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';

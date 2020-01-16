@@ -45,6 +45,8 @@ $langs->loadLangs(array('compta', 'salaries', 'bills', 'hrm', 'stripe', 'stripec
 
 // Security check
 $socid = GETPOST("socid", "int");
+$action = GETPOST('action', 'alpha');
+$rowid = GETPOST('rowid', 'int') ?GETPOST('rowid', 'int') : GETPOST('id', 'int');
 if ($user->societe_id) $socid=$user->societe_id;
 //$result = restrictedArea($user, 'salaries', '', '', '');
 
@@ -73,6 +75,22 @@ else
 }
 
 $stripeacc = $stripe->getStripeAccount($service);
+
+if ($action == 'update' && ($user->rights->banque->configurer))
+{
+
+$account_links = \Stripe\AccountLink::create([
+    'account' => $stripeacc,
+    'failure_url' => 'https://dolibarr.ptibogxiv.net',
+    'success_url' => 'https://dolibarr.ptibogxiv.net',
+    'type' => 'custom_account_update',
+    'collect' => 'eventually_due'
+]);
+
+header("Location: ".$account_links);
+exit;
+
+}
 
 	print '<form method="POST" action="' . $_SERVER["PHP_SELF"] . '">';
 	if ($optioncss != '') {
@@ -608,15 +626,7 @@ print '</td></tr>';
 
 print '</table>';
 
-$account_links = \Stripe\AccountLink::create([
-    'account' => $stripeacc,
-    'failure_url' => 'https://dolibarr.ptibogxiv.net',
-    'success_url' => 'https://dolibarr.ptibogxiv.net',
-    'type' => 'custom_account_update',
-    'collect' => 'eventually_due'
-]);
-
-print '<a class="butAction" href="'.$account_links->url.'" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
+print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?&action=update" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
             		
 }
 

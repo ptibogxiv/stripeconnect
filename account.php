@@ -299,7 +299,7 @@ print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) 
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("completed") : $langs->trans("pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
@@ -561,7 +561,7 @@ print ", ".$langs->trans("TransfertDelay").": ".$account->settings->payouts->sch
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("completed") : $langs->trans("pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 

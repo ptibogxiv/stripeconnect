@@ -538,12 +538,12 @@ foreach ($persons as $person) {
 
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n"; 
 
-print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Capabilities").'</label></td><td>';
+print '<tr class="oddeven"><td><label for="capabilities">'.$langs->trans("Capabilities").'</label></td><td>';
 if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $langs->trans(ucfirst($account->capabilities->card_payments)), '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
 if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $langs->trans(ucfirst($account->capabilities->legacy_payments)), '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
 if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $langs->trans(ucfirst($account->capabilities->platform_payments)), '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
-//print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
-print '</td></tr>';
+if ($account->capabilities->transfers) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->transfers, $langs->trans(ucfirst($account->capabilities->transfers)), '', ($account->capabilities->transfers == 'active') ? 'status4' : 'status1', 5);
+print '</td></tr>';  
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
 print dolGetStatus($account->charges_enabled, !empty($account->charges_enabled) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);

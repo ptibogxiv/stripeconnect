@@ -46,6 +46,7 @@ $langs->loadLangs(array('compta', 'salaries', 'bills', 'hrm', 'stripe', 'stripec
 // Security check
 $socid = GETPOST("socid", "int");
 $action = GETPOST('action', 'alpha');
+$confirm = GETPOST('confirm', 'alpha');
 $rowid = GETPOST('rowid', 'int') ?GETPOST('rowid', 'int') : GETPOST('id', 'int');
 if ($user->societe_id) $socid=$user->societe_id;
 //$result = restrictedArea($user, 'salaries', '', '', '');
@@ -75,6 +76,18 @@ else
 }
 
 $stripeacc = $stripe->getStripeAccount($service);
+
+if ($confirm == 'success') {
+
+setEventMessages($langs->trans('StripeAccountUpdateSuccess'), null, 'mesgs');
+
+}
+
+if ($confirm == 'fail') {
+
+setEventMessages($langs->trans('StripeAccountUpdateFail'), null, 'errors');
+
+}
 
 if ($action == 'update' && ($user->rights->banque->configurer))
 {

@@ -289,17 +289,17 @@ if ($account->capabilities->platform_payments) print $langs->trans("platform_pay
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
-print dolGetStatus($account->charges_enabled, $account->charges_enabled, '', ($account->charges_enabled) ? 'status4' : 'status0', 3);
+print dolGetStatus(!empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), !empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Payouts").'</label></td><td>';
-print dolGetStatus($account->payouts_enabled, $account->payouts_enabled, '', ($account->payouts_enabled) ? 'status4' : 'status0', 3);
+print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, $account->details_submitted, '', ($account->details_submitted) ? 'status4' : 'status0', 3);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
@@ -546,13 +546,12 @@ if ($account->capabilities->platform_payments) print $langs->trans("platform_pay
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
-print dolGetStatus($account->charges_enabled, $account->charges_enabled, '', ($account->charges_enabled) ? 'status4' : 'status0', 3);
-print ' '.$account->settings->card_payments;
+print dolGetStatus(!empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), !empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Payouts").'</label></td><td>';
-print dolGetStatus($account->payouts_enabled, $account->payouts_enabled, '', ($account->payouts_enabled) ? 'status4' : 'status0', 3);
+print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
 print ' '.$langs->trans("Schedule").": ".$langs->trans($account->settings->payouts->schedule->interval).": ";
 if ($account->settings->payouts->schedule->interval == 'monthly') print $langs->trans("every")." ".$account->settings->payouts->schedule->monthly_anchor." ".$langs->trans("DayOfMonth");
 if ($account->settings->payouts->schedule->interval == 'weekly') print $langs->trans("every")." ".$langs->trans($account->settings->payouts->schedule->weekly_anchor);
@@ -562,7 +561,7 @@ print ", ".$langs->trans("TransfertDelay").": ".$account->settings->payouts->sch
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, $account->details_submitted, '', ($account->details_submitted) ? 'status4' : 'status0', 3);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
@@ -609,6 +608,19 @@ print '<br>'.$langs->trans("UserAgent").': '.$account->tos_acceptance->user_agen
 print '</td></tr>';
 
 print '</table>';
+
+print 'link: ';
+
+$account_links = \Stripe\AccountLink::create([
+    'account' => $stripeacc,
+    'failure_url' => 'https://dolibarr.ptibogxiv.net',
+    'success_url' => 'https://dolibarr.ptibogxiv.net',
+    'type' => 'custom_account_update',
+    'collect' => 'eventually_due'
+]);
+
+print '<a class="butAction" href="'.$account_links->url.'" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
+            		
 }
 
 // End of page

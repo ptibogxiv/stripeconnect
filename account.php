@@ -81,13 +81,13 @@ if ($action == 'update' && ($user->rights->banque->configurer))
 
 $account_links = \Stripe\AccountLink::create([
     'account' => $stripeacc,
-    'failure_url' => 'https://dolibarr.ptibogxiv.net',
-    'success_url' => 'https://dolibarr.ptibogxiv.net',
+    'failure_url' => $_SERVER["PHP_SELF"].'confirm=fail',
+    'success_url' => $_SERVER["PHP_SELF"].'confirm=success,
     'type' => 'custom_account_update',
     'collect' => 'eventually_due'
 ]);
 
-header("Location: ".$account_links);
+header("Location: ".$account_links->url);
 exit;
 
 }

@@ -282,24 +282,24 @@ print '</td></tr>';
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Capabilities").'</label></td><td>';
-if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $account->capabilities->card_payments, '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $account->capabilities->legacy_payments, '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $account->capabilities->platform_payments, '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
+if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $langs->trans(ucfirst($account->capabilities->card_payments)), '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
+if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $langs->trans(ucfirst($account->capabilities->legacy_payments)), '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
+if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $langs->trans(ucfirst($account->capabilities->platform_payments)), '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
-print dolGetStatus(!empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), !empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->charges_enabled, !empty($account->charges_enabled) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Payouts").'</label></td><td>';
-print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("completed") : $langs->trans("pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("Completed") : $langs->trans("Pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
@@ -539,19 +539,19 @@ foreach ($persons as $person) {
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n"; 
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Capabilities").'</label></td><td>';
-if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $account->capabilities->card_payments, '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $account->capabilities->legacy_payments, '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $account->capabilities->platform_payments, '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
+if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $langs->trans(ucfirst($account->capabilities->card_payments)), '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
+if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $langs->trans(ucfirst($account->capabilities->legacy_payments)), '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
+if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $langs->trans(ucfirst($account->capabilities->platform_payments)), '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
-print dolGetStatus(!empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), !empty($account->charges_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->charges_enabled, !empty($account->charges_enabled) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Payouts").'</label></td><td>';
-print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("active") : $langs->trans("inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->payouts_enabled, !empty($account->payouts_enabled) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->payouts_enabled) ? 'status4' : 'status0', 5);
 print ' '.$langs->trans("Schedule").": ".$langs->trans($account->settings->payouts->schedule->interval).": ";
 if ($account->settings->payouts->schedule->interval == 'monthly') print $langs->trans("every")." ".$account->settings->payouts->schedule->monthly_anchor." ".$langs->trans("DayOfMonth");
 if ($account->settings->payouts->schedule->interval == 'weekly') print $langs->trans("every")." ".$langs->trans($account->settings->payouts->schedule->weekly_anchor);
@@ -561,7 +561,7 @@ print ", ".$langs->trans("TransfertDelay").": ".$account->settings->payouts->sch
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Details").'</label></td><td>';
-print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("completed") : $langs->trans("pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
+print dolGetStatus($account->details_submitted, !empty($account->details_submitted) ? $langs->trans("Completed") : $langs->trans("Pending"), '', ($account->details_submitted) ? 'status4' : 'status0', 5);
 //print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
 print '</td></tr>';
 

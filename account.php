@@ -402,9 +402,9 @@ print '<tr class="oddeven"><td><label for="profid1">'.$langs->transcountry("Prof
 print dolGetStatus($account->company->tax_id_provided, !empty($account->company->tax_id_provided) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 print '</td></tr>'."\n";
 
-print '<tr class="oddeven"><td><label for="verification">'.$langs->trans("Verification").'</label></td><td>';
-print $account->company->verification->document->front;
-print " ".dolGetStatus($account->company->verification->document->details, $account->company->verification->document->details_code, '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 3);
+print '<tr class="oddeven"><td><label for="verification">'.$langs->trans("DocumentVerification").'</label></td><td>';
+//print $account->company->verification->document->front;
+print " ".dolGetStatus($account->company->verification->document->details, !empty($account->company->tax_id_provided) ? $langs->trans("Completed") : $langs->trans(ucfirst($account->company->verification->document->details_code)), '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 5);
 //print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
 print '</td></tr>'."\n";
 
@@ -607,8 +607,6 @@ print '<br>'.$langs->trans("UserAgent").': '.$account->tos_acceptance->user_agen
 print '</td></tr>';
 
 print '</table>';
-
-print 'link: ';
 
 $account_links = \Stripe\AccountLink::create([
     'account' => $stripeacc,

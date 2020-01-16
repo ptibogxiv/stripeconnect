@@ -492,7 +492,7 @@ print '</td></tr>';
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Board").'</th><th></th></tr>'."\n";
 $persons = \Stripe\Account::allPersons($stripeacc);
 foreach ($persons as $person) {
-print "<tr class='oddeven'><td colspan='2'>".$person->first_name." ".$person->last_name.", ".$person->relationship->title." ".dolGetStatus($langs->trans($person->verification->status), $langs->trans($person->verification->status), '', ($person->verification->status == 'verified') ? 'status4' : 'status1', 5)."<br>";
+print "<tr class='oddeven'><td colspan='2'>".$person->first_name." ".$person->last_name.", ".$person->relationship->title." ".dolGetStatus($person->verification->status, $langs->trans(ucfirst($person->verification->status)), '', ($person->verification->status == 'verified') ? 'status4' : 'status1', 5)."<br>";
 print "".$person->address->line1;
 if (!empty($person->address->line2)) print " ".$person->address->line2;
 print ", ".$person->address->postal_code." ".$person->address->city.", ".getCountry($person->address->country);

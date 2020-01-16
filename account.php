@@ -77,13 +77,13 @@ else
 
 $stripeacc = $stripe->getStripeAccount($service);
 
-if ($confirm == 'success') {
+if (!$action && $confirm == 'success') {
 
 setEventMessages($langs->trans('StripeAccountUpdateSuccess'), null, 'mesgs');
 
 }
 
-if ($confirm == 'fail') {
+if (!$action && $confirm == 'fail') {
 
 setEventMessages($langs->trans('StripeAccountUpdateFail'), null, 'errors');
 

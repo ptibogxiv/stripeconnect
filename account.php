@@ -422,7 +422,7 @@ print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="verification">'.$langs->trans("DocumentVerification").'</label></td><td>';
 //print $account->company->verification->document->front;
-print " ".dolGetStatus($account->company->verification->document->details, !empty($account->company->tax_id_provided) ? $langs->trans("Completed") : $langs->trans(ucfirst($account->company->verification->document->details_code)), '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 5);
+print " ".dolGetStatus($account->company->verification->document->details, !empty($account->company->tax_id_provided) ? $langs->trans("Verified") : $langs->trans(ucfirst($account->company->verification->document->details_code)), '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 5);
 //print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
 print '</td></tr>'."\n";
 
@@ -626,8 +626,10 @@ print '</td></tr>';
 
 print '</table>';
 
+print '<div class="tabsAction">'."\n";
 print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?&action=update" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
-            		
+print '</div>'."\n";
+
 }
 
 // End of page

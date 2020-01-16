@@ -81,8 +81,8 @@ if ($action == 'update' && ($user->rights->banque->configurer))
 
 $account_links = \Stripe\AccountLink::create([
     'account' => $stripeacc,
-    'failure_url' => $_SERVER["PHP_SELF"].'confirm=fail',
-    'success_url' => $_SERVER["PHP_SELF"].'confirm=success,
+    'failure_url' => $_SERVER["PHP_SELF"].'?confirm=fail',
+    'success_url' => $_SERVER["PHP_SELF"].'?confirm=success,
     'type' => 'custom_account_update',
     'collect' => 'eventually_due'
 ]);

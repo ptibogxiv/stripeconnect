@@ -399,18 +399,17 @@ print $account->business_profile->url;
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="profid1">'.$langs->transcountry("ProfId1", $mysoc->country_code).'</label></td><td>';
-print dolGetStatus($account->company->tax_id_provided, $account->company->tax_id_provided, '', ($account->company->tax_id_provided) ? 'status4' : 'status0', 3);
-//print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
-print '</td></tr>'."\n";
-
-print '<tr class="oddeven"><td><label for="intra_vat">'.$langs->trans("VATIntra").'</label></td><td>';
-print dolGetStatus($account->company->vat_id_provided, $account->company->vat_id_provided, '', ($account->company->vat_id_provided) ? 'status4' : 'status0', 3);
-//print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
+print dolGetStatus($account->company->tax_id_provided, !empty($account->company->tax_id_provided) ? $langs->trans("Active") : $langs->trans("Inactive"), '', ($account->charges_enabled) ? 'status4' : 'status0', 5);
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="verification">'.$langs->trans("Verification").'</label></td><td>';
 print $account->company->verification->document->front;
 print " ".dolGetStatus($account->company->verification->document->details, $account->company->verification->document->details_code, '', empty($account->company->verification->document->details_code) ? 'status4' : 'status0', 3);
+//print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
+print '</td></tr>'."\n";
+
+print '<tr class="oddeven"><td><label for="intra_vat">'.$langs->trans("VATIntra").'</label></td><td>';
+print dolGetStatus($account->company->vat_id_provided, $account->company->vat_id_provided, '', ($account->company->vat_id_provided) ? 'status4' : 'status0', 3);
 //print '<input name="web" id="web" class="minwidth300" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_WEB).'">';
 print '</td></tr>'."\n";
 

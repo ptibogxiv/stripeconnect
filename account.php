@@ -89,22 +89,6 @@ setEventMessages($langs->trans('StripeAccountUpdateFail'), null, 'errors');
 
 }
 
-if ($action == 'update' && ($user->rights->banque->configurer))
-{
-
-$account_links = \Stripe\AccountLink::create([
-    'account' => $stripeacc,
-    'failure_url' => dol_buildpath('/stripeconnect/account.php?confirm=fail', 2),
-    'success_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
-    'type' => 'custom_account_update',
-    'collect' => 'eventually_due'
-]);
-
-header("Location: ".$account_links->url);
-exit;
-
-}
-
 	print '<form method="POST" action="' . $_SERVER["PHP_SELF"] . '">';
 	if ($optioncss != '') {
         print '<input type="hidden" name="optioncss" value="' . $optioncss . '">';
@@ -639,8 +623,18 @@ print '</td></tr>';
 
 print '</table>';
 
+if ($stripeacc)
+	{
+    $account = \Stripe\AccountLink::create([
+  'account' => $stripeacc,
+  'refresh_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
+  'return_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
+  'type' => 'account_update',
+]);
+	}
+
 print '<div class="tabsAction">'."\n";
-print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?&action=update" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
+print '<a class="butAction" href="'.$account->url.'" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
 print '</div>'."\n";
 
 }

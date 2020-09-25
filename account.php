@@ -627,7 +627,7 @@ if ($stripeacc)
 	{
     $account = \Stripe\AccountLink::create([
   'account' => $stripeacc,
-  'refresh_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
+  'refresh_url' => dol_buildpath('/stripeconnect/account.php?confirm=fail', 2),
   'return_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
   'type' => 'account_update',
 ]);

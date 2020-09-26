@@ -151,7 +151,6 @@ class modStripeConnect extends DolibarrModules {
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
       "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
-      "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('MAIN_MODULE_STRIPECONNECT_TABS_0', 1)." AND entity = '0' "
 		);
 
 		return $this->_init($sql);

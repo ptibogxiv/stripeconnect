@@ -112,20 +112,7 @@ class modStripeConnect extends DolibarrModules {
         $this->boxes = array();
 
 		// Main menu entries
-        $r=0;
-	    $this->menu[$r] = array(
-      'entity' => '0',
-			'fk_menu' => 'fk_mainmenu=bank,fk_leftmenu=stripe',
-			'type' => 'left',
-			'titre' => 'StripeAccount',
-			'url' => '/stripeconnect/account.php',
-			'langs' => 'stripe',
-			'position' => 104,
-			'enabled' => '$conf->stripe->enabled && $conf->banque->enabled && $conf->global->MAIN_FEATURES_LEVEL >= 1',
-			'perms' => '$user->rights->banque->lire',
-			'target' => '',
-			'user' => 0
-		);
+		$this->menu = array();			// List of menus to add
 
         // Dictionnaries
         if (! isset($conf->stripeconnect) || ! isset($conf->stripeconnect->enabled)) {
@@ -164,7 +151,7 @@ class modStripeConnect extends DolibarrModules {
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
       "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
-      "UPDATE ".MAIN_DB_PREFIX."menu SET entity = '0' WHERE url = '/stripeconnect/account.php' and position = '104'"
+      "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('MAIN_MODULE_STRIPECONNECT_TABS_0', 1)." AND entity = '0' "
 		);
 
 		return $this->_init($sql);
@@ -185,7 +172,7 @@ class modStripeConnect extends DolibarrModules {
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_TEST_SECRET_KEY', 1)." AND entity != '0' ",
       "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_PUBLISHABLE_KEY', 1)." AND entity != '0' ",
 			"DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('STRIPE_LIVE_SECRET_KEY', 1)." AND entity != '0' ",
-      "DELETE FROM ".MAIN_DB_PREFIX."menu WHERE entity = '0' AND url = '/stripeconnect/account.php' and position = '104'"
+      "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name = ".$this->db->encrypt('MAIN_MODULE_STRIPECONNECT_TABS_0', 1)." AND entity = '0' "
 		);
 
 		return $this->_remove($sql, $options);

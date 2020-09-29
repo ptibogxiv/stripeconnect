@@ -102,10 +102,9 @@ class modStripeConnect extends DolibarrModules {
         // New pages on tabs
         // -----------------
 		$this->tabs = array(array(
-            'data' => 'mycompany_admin:+tabStripeAccount:StripeAccount:stripeconnect@stripeconnect:$user->rights->banque->lire:/stripeconnect/account.php',
+            'data' => 'mycompany_admin:+stripeaccount:StripeAccount:stripeconnect@stripeconnect:$user->rights->banque->lire:/stripeconnect/account.php',
             'entity' => '0')
             );
-    //$this->tabs[] = array('data' => 'thirdparty:+tabStripeAccount:StripeAccount:stripeconnect@stripeconnect:$user->rights->banque->lire:/stripeconnect/account.php?socid=__ID__');
 
         // Boxes
         //------

@@ -1,6 +1,5 @@
 <?php
-/* Copyright (C) 2018-2019  Thibault FOUCART        <support@ptibogxiv.net>
- * Copyright (C) 2019       Frédéric France         <frederic.france@netlogic.fr>
+/* Copyright (C) 2018-2020  Thibault FOUCART        <support@ptibogxiv.net>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,23 +12,34 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Put here all includes required by your class file
+/**
+ *	\file       htdocs/admin/company.php
+ *	\ingroup    company
+ *	\brief      Setup page to configure company/foundation
+ */
 
-if(is_file('../main.inc.php'))$dir = '../';
-else  if(is_file('../../../main.inc.php'))$dir = '../../../';
-else $dir = '../../';
-
-include($dir."main.inc.php");
-require_once DOL_DOCUMENT_ROOT.'/societe/class/societe.class.php';
-require_once DOL_DOCUMENT_ROOT.'/adherents/class/adherent.class.php';
-require_once DOL_DOCUMENT_ROOT.'/stripe/class/stripe.class.php';
-//require_once DOL_DOCUMENT_ROOT.'/core/lib/stripe.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
-require_once DOL_DOCUMENT_ROOT.'/commande/class/commande.class.php';
-require_once DOL_DOCUMENT_ROOT.'/compta/facture/class/facture.class.php';
+// require '../../main.inc.php';
+// Dolibarr environment
+$res = 0;
+if (! $res && file_exists("../main.inc.php"))
+{
+	$res = @include "../main.inc.php";
+}
+if (! $res && file_exists("../../main.inc.php"))
+{
+	$res = @include "../../main.inc.php";
+}
+if (! $res && file_exists("../../../main.inc.php"))
+{
+	$res = @include "../../../main.inc.php";
+}
+if (! $res)
+{
+	die("Main include failed");
+}
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
@@ -38,7 +48,18 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
-if (! empty($conf->accounting->enabled)) require_once DOL_DOCUMENT_ROOT . '/accountancy/class/accountingjournal.class.php';
+require_once DOL_DOCUMENT_ROOT.'/stripe/class/stripe.class.php';
+require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
+
+$action = GETPOST('action', 'aZ09');
+$contextpage = GETPOST('contextpage', 'aZ') ?GETPOST('contextpage', 'aZ') : 'admincompany'; // To manage different context of search
+
+// Load translation files required by the page
+$langs->loadLangs(array('compta', 'salaries', 'bills', 'hrm', 'stripe', 'stripeconnect@stripeconnect'));
+
+if (!$user->admin) accessforbidden();
+
+$error = 0;
 
 // Load translation files required by the page
 $langs->loadLangs(array('compta', 'salaries', 'bills', 'hrm', 'stripe', 'stripeconnect@stripeconnect'));
@@ -55,14 +76,23 @@ if ($user->societe_id) $socid=$user->societe_id;
  * View
  */
 
+$wikihelp = 'EN:First_setup|FR:Premiers_paramÃ©trages|ES:Primeras_configuraciones';
+llxHeader('', $langs->trans("Setup"), $wikihelp);
+
 $form = new Form($db);
 $acc = new Account($db);
 $stripe = new Stripe($db);
 $form = new Form($db);
 $formother = new FormOther($db);
-$formcompany = new FormCompany($db);
+$formcompany = new FormCompany($db);;
 
-llxHeader('', $langs->trans("StripePayoutList"));
+$countrynotdefined = '<font class="error">'.$langs->trans("ErrorSetACountryFirst").' ('.$langs->trans("SeeAbove").')</font>';
+
+print load_fiche_titre($langs->trans("CompanyFoundation"), '', 'title_setup');
+
+$head = company_admin_prepare_head();
+
+dol_fiche_head($head, 'stripeaccount', $langs->trans("Company"), -1, 'company');
 
 if (! empty($conf->stripe->enabled) && (empty($conf->global->STRIPE_LIVE) || GETPOST('forcesandbox', 'alpha'))) {
 	$service = 'StripeTest';
@@ -89,6 +119,12 @@ setEventMessages($langs->trans('StripeAccountUpdateFail'), null, 'errors');
 
 }
 
+$title=$langs->trans("StripeSetup");
+$title.=($stripeacc?' (Stripe connection with Stripe OAuth Connect account '.$stripeacc.')':' (Stripe connection with keys from Stripe module setup)');
+
+print '<span class="opacitymedium">'.$title."</span><br>\n";
+print "<br>\n";
+
 	print '<form method="POST" action="' . $_SERVER["PHP_SELF"] . '">';
 	if ($optioncss != '') {
         print '<input type="hidden" name="optioncss" value="' . $optioncss . '">';
@@ -99,11 +135,6 @@ setEventMessages($langs->trans('StripeAccountUpdateFail'), null, 'errors');
 	print '<input type="hidden" name="sortfield" value="' . $sortfield . '">';
 	print '<input type="hidden" name="sortorder" value="' . $sortorder . '">';
 	print '<input type="hidden" name="page" value="' . $page . '">';
-
-	$title=$langs->trans("StripeAccount");
-	$title.=($stripeacc?' (Stripe connection with Stripe OAuth Connect account '.$stripeacc.')':' (Stripe connection with keys from Stripe module setup)');
-
-	print_barre_liste($title, $page, $_SERVER["PHP_SELF"], $param, $sortfield, $sortorder, '', $num, $totalnboflines, 'title_accountancy.png', 0, '', '', '');
 
 
 	if ($stripeacc)
@@ -642,3 +673,4 @@ print '</div>'."\n";
 // End of page
 llxFooter();
 $db->close();
+

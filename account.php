@@ -50,6 +50,7 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/html.formother.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
 require_once DOL_DOCUMENT_ROOT.'/stripe/class/stripe.class.php';
 require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
+require_once DOL_DOCUMENT_ROOT.'/core/class/cstate.class.php';
 
 $action = GETPOST('action', 'aZ09');
 $contextpage = GETPOST('contextpage', 'aZ') ?GETPOST('contextpage', 'aZ') : 'admincompany'; // To manage different context of search
@@ -408,30 +409,22 @@ print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="MAIN_INFO_SOCIETE_ZIP">'.$langs->trans("CompanyZip").'</label></td><td>';
 print $account->company->address->postal_code;
-//print '<input class="minwidth100" name="MAIN_INFO_SOCIETE_ZIP" id="MAIN_INFO_SOCIETE_ZIP" value="'. dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_ZIP?$conf->global->MAIN_INFO_SOCIETE_ZIP:GETPOST("MAIN_INFO_SOCIETE_ZIP", 'alpha')) . '">';
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="MAIN_INFO_SOCIETE_TOWN">'.$langs->trans("CompanyTown").'</label></td><td>';
 print $account->company->address->city;
-//print '<input name="MAIN_INFO_SOCIETE_TOWN" class="minwidth100" id="MAIN_INFO_SOCIETE_TOWN" value="'. dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_TOWN?$conf->global->MAIN_INFO_SOCIETE_TOWN:GETPOST("MAIN_INFO_SOCIETE_TOWN", 'nohtml')) . '">';
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="selectcountry_id">'.$langs->trans("Country").'</label></td><td class="maxwidthonsmartphone">';
 print getCountry($account->company->address->country);
-//if (empty($country_selected)) $country_selected=substr($langs->defaultlang,-2);    // By default, country of localization
-//print $form->select_country($mysoc->country_id, 'country_id');
-//if ($user->admin) print info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"), 1);
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="state_id">'.$langs->trans("State").'</label></td><td class="maxwidthonsmartphone">';
-if (!empty($account->company->address->state)) print getState($account->company->address->state);
-//$state_id = 0;
-//if (!empty($conf->global->MAIN_INFO_SOCIETE_STATE))
-//{
-//	$tmp = explode(':', $conf->global->MAIN_INFO_SOCIETE_STATE);
-//	$state_id = $tmp[0];
-//}
-//$formcompany->select_departement($state_id, $mysoc->country_code, 'state_id');
+if (!empty($account->company->address->state)) {
+$state = new Cstate($db);
+$state->fetch('', $account->company->address->state);
+print getState($state->id);
+}
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="phone">'.$langs->trans("Phone").'</label></td><td>';

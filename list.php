@@ -108,7 +108,7 @@ if (!$rowid)
 		} else {
 			$list = \Stripe\Account::all($option);
 		}
-    print $list;
+    //print $list;
 		$num = count($list->data);
 
 		$totalnboflines = '';
@@ -130,7 +130,7 @@ if (!$rowid)
 	    print '<input type="hidden" name="sortorder" value="'.$sortorder.'">';
 	    print '<input type="hidden" name="page" value="'.$page.'">';
 
-	    $title = $langs->trans("StripeChargeList");
+	    $title = $langs->trans("StripeAccountList");
 	    $title .= ($stripeacc ? ' (Stripe connection with Stripe OAuth Connect account '.$stripeacc.')' : ' (Stripe connection with keys from Stripe module setup)');
 
 		print_barre_liste($title, $page, $_SERVER["PHP_SELF"], $param, $sortfield, $sortorder, '', $num, $totalnboflines, 'title_accountancy.png', 0, '', 'hidepaginationprevious', $limit);
@@ -142,9 +142,9 @@ if (!$rowid)
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder); 	 
+      print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
 	    print_liste_field_titre("DatePayment", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'center ');
-	    print_liste_field_titre("Paid", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
 	    print_liste_field_titre("Status", $_SERVER["PHP_SELF"], "", "", "", '', '', '', 'right ');
 	    print "</tr>\n";
 
@@ -156,37 +156,15 @@ if (!$rowid)
 				break;
 			}
 
-			// The metadata FULLTAG is defined by the online payment page
-			$FULLTAG = $charge->metadata->FULLTAG;
-
-			// Save into $tmparray all metadata
-			$tmparray = dolExplodeIntoArray($FULLTAG, '.', '=');
-			// Load origin object according to metadata
-			if (!empty($tmparray['CUS']) && $tmparray['CUS'] > 0)
-			{
-				$societestatic->fetch($tmparray['CUS']);
-			} elseif (!empty($charge->metadata->dol_thirdparty_id) && $charge->metadata->dol_thirdparty_id > 0)
-			{
-				$societestatic->fetch($charge->metadata->dol_thirdparty_id);
-			} else {
-				$societestatic->id = 0;
-			}
-			if (!empty($tmparray['MEM']) && $tmparray['MEM'] > 0)
-			{
-				$memberstatic->fetch($tmparray['MEM']);
-			} else {
-				$memberstatic->id = 0;
-			}
 
 			print '<tr class="oddeven">';
 
-	        if (!empty($stripeacc)) $connect = $stripeacc.'/';
 
 			// Ref
-			$url = 'https://dashboard.stripe.com/'.$connect.'test/payments/'.$charge->id;
+			$url = 'https://dashboard.stripe.com/test/connect/accounts/'.$charge->id;
 	        if ($servicestatus)
 	        {
-	        	$url = 'https://dashboard.stripe.com/'.$connect.'payments/'.$charge->id;
+	        	$url = 'https://dashboard.stripe.com/connect/accounts/'.$charge->id;
 	        }
 			print "<td>";
 	        print "<a href='".$url."' target='_stripe'>".img_picto($langs->trans('ShowInStripe'), 'globe')." ".$charge->id."</a>";
@@ -209,11 +187,13 @@ if (!$rowid)
 			print $img ? $img.' ' : '';
       print getCountry($charge->country, 1);
 	    print "</td>\n";
+      
+		  // Currency
+		  print '<td class="right">'.$langs->trans("Currency".strtoupper($charge->default_currency)).'</td>';
+			
+      // Date payment
+		  print '<td class="center">'.dol_print_date($charge->created, '%d/%m/%Y %H:%M')."</td>\n";
 
-			// Date payment
-		    print '<td class="center">'.dol_print_date($charge->created, '%d/%m/%Y %H:%M')."</td>\n";
-		    // Amount
-		    print '<td class="right">'.price(($charge->amount - $charge->amount_refunded) / 100, 0, '', 1, - 1, - 1, strtoupper($charge->currency))."</td>";
 		    // Status
 		    print '<td class="right">';
 		    print dolGetStatus($charge->details_submitted, !empty($charge->details_submitted) ? $langs->trans("Completed") : $langs->trans("Pending"), '', ($charge->details_submitted) ? 'status4' : 'status0', 5);

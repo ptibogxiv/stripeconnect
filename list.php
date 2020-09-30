@@ -76,7 +76,7 @@ $memberstatic = new Adherent($db);
 $acc = new Account($db);
 $stripe = new Stripe($db);
 
-llxHeader('', $langs->trans("StripeChargeList"));
+llxHeader('', $langs->trans("StripeAccountList"));
 
 if (!empty($conf->stripe->enabled) && (empty($conf->global->STRIPE_LIVE) || GETPOST('forcesandbox', 'alpha')))
 {

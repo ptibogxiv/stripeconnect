@@ -46,5 +46,6 @@ StripeConnectRefund=Remboursement via Stripe
 StripeAccount=Paiement en ligne via Stripe
 StripeFeeList=Liste des frais
 StripeChargeList=Liste des paiements
+StripeAccountList=Liste des comptes connectés
 StripeSettings=Paramètrage du compte
 StripeLegacy=Les services de paiement pour les sociétés officiant sur platformname sont fournis par Stripe et soumis à l’Accord sur les comptes Stripe Connected (Stripe Connected Account Agreement), qui inclut les Modalités de service de Stripe (l’ensemble étant appelé les “Conditions Générales d’Utilisation Stripe” - “Stripe Services Agreement”.) En agréant aux présentes Conditions Générales d’Utilisation ou en continuant à opérer en tant que sociétés officiant sur platformname, vous acceptez d’être lié aux Conditions Générales d’Utilisation Stripe, celles-ci pouvant occasionnellement faire l’objet de modifications de la part de Stripe. Du fait que platformname permette d’effectuer les paiements via Stripe, vous acceptez de fournir à platformname des informations précises et complètes sur vous et votre activité, et autorisez platformname à partager ces informations ainsi que celles concernant les transactions effectuées via la solution de paiement fournie par Stripe.

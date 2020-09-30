@@ -108,7 +108,7 @@ if (!$rowid)
 		} else {
 			$list = \Stripe\Account::all($option);
 		}
-
+    print $list;
 		$num = count($list->data);
 
 		$totalnboflines = '';
@@ -140,11 +140,10 @@ if (!$rowid)
 
 	    print '<tr class="liste_titre">';
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-	    print_liste_field_titre("StripeCustomerId", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-	    print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("DatePayment", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'center ');
-	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'left ');
 	    print_liste_field_titre("Paid", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
 	    print_liste_field_titre("Status", $_SERVER["PHP_SELF"], "", "", "", '', '', '', 'right ');
 	    print "</tr>\n";
@@ -156,38 +155,6 @@ if (!$rowid)
 			if ($i >= $limit) {
 				break;
 			}
-
-		    if ($charge->refunded == '1') {
-		    	$status = img_picto($langs->trans("refunded"), 'statut6');
-		    } elseif ($charge->paid == '1') {
-	            $status = img_picto($langs->trans((string) $charge->status), 'statut4');
-		    } else {
-		    	$label = $langs->trans("Message").": ".$charge->failure_message."<br>";
-		    	$label .= $langs->trans("Network").": ".$charge->outcome->network_status."<br>";
-		    	$label .= $langs->trans("Status").": ".$langs->trans((string) $charge->outcome->seller_message);
-		    	$status = $form->textwithpicto(img_picto($langs->trans((string) $charge->status), 'statut8'), $label, -1);
-		    }
-
-	        if ($charge->payment_method_details->type == 'card') {
-			    $type = $langs->trans("card");
-		    } elseif ($charge->source->type == 'card') {
-				$type = $langs->trans("card");
-		    } elseif ($charge->payment_method_details->type == 'three_d_secure') {
-				$type = $langs->trans("card3DS");
-		    } elseif ($charge->payment_method_details->type == 'sepa_debit') {
-				$type = $langs->trans("sepadebit");
-		    } elseif ($charge->payment_method_details->type == 'ideal') {
-				$type = $langs->trans("iDEAL");
-		    }
-
-		    // Why this ?
-	        /*if (! empty($charge->payment_intent)) {
-				if (empty($stripeacc)) {				// If the Stripe connect account not set, we use common API usage
-		    		$charge = \Stripe\PaymentIntent::retrieve($charge->payment_intent);
-				} else {
-					$charge = \Stripe\PaymentIntent::retrieve($charge->payment_intent, array("stripe_account" => $stripeacc));
-				}
-	        }*/
 
 			// The metadata FULLTAG is defined by the online payment page
 			$FULLTAG = $charge->metadata->FULLTAG;
@@ -228,64 +195,28 @@ if (!$rowid)
 
 			// Stripe customer
 			print "<td>";
-	        if (!empty($conf->stripe->enabled) && !empty($stripeacc)) $connect = $stripeacc.'/';
-			$url = 'https://dashboard.stripe.com/'.$connect.'test/customers/'.$charge->customer;
-			if ($servicestatus)
-			{
-	            $url = 'https://dashboard.stripe.com/'.$connect.'customers/'.$charge->customer;
-			}
-			if (!empty($charge->customer))
-			{
-	    		print '<a href="'.$url.'" target="_stripe">'.img_picto($langs->trans('ShowInStripe'), 'globe').' '.$charge->customer.'</a>';
-			}
-	        print "</td>\n";
+      print $charge->name;
+	    print "</td>\n";
 
 			// Link
 			print "<td>";
-			if ($societestatic->id > 0)
-			{
-				print $societestatic->getNomUrl(1);
-			} elseif ($memberstatic->id > 0)
-			{
-				print $memberstatic->getNomUrl(1);
-			}
-			print "</td>\n";
+      print $charge->type;
+	    print "</td>\n";
 
 			// Origin
 			print "<td>";
-			if ($charge->metadata->dol_type == "order" || $charge->metadata->dol_type == "commande") {
-				$object = new Commande($db);
-				$object->fetch($charge->metadata->dol_id);
-	            if ($object->id > 0) {
-	                print "<a href='".DOL_URL_ROOT."/commande/card.php?id=".$object->id."'>".img_picto('', 'object_order')." ".$object->ref."</a>";
-	            } else {
-	                print $FULLTAG;
-	            }
-			} elseif ($charge->metadata->dol_type == "invoice" || $charge->metadata->dol_type == "facture") {
-				print $charge->metadata->dol_type.' '.$charge->metadata->dol_id.' - ';
-				$object = new Facture($db);
-				$object->fetch($charge->metadata->dol_id);
-	            if ($object->id > 0) {
-			        print "<a href='".DOL_URL_ROOT."/compta/facture/card.php?facid=".$charge->metadata->dol_id."'>".img_picto('', 'object_invoice')." ".$object->ref."</a>";
-	            } else {
-					print $FULLTAG;
-				}
-			} else {
-				print $FULLTAG;
-			}
-		    print "</td>\n";
+      $img = picto_from_langcode($charge->country);
+			print $img ? $img.' ' : '';
+      print getCountry($charge->country, 1);
+	    print "</td>\n";
 
 			// Date payment
 		    print '<td class="center">'.dol_print_date($charge->created, '%d/%m/%Y %H:%M')."</td>\n";
-		    // Type
-		    print '<td>';
-			print $type;
-		    print '</td>';
 		    // Amount
 		    print '<td class="right">'.price(($charge->amount - $charge->amount_refunded) / 100, 0, '', 1, - 1, - 1, strtoupper($charge->currency))."</td>";
 		    // Status
 		    print '<td class="right">';
-		    print $status;
+		    print dolGetStatus($charge->details_submitted, !empty($charge->details_submitted) ? $langs->trans("Completed") : $langs->trans("Pending"), '', ($charge->details_submitted) ? 'status4' : 'status0', 5);
 		    print "</td>\n";
 
 		    print "</tr>\n";

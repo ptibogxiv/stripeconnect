@@ -173,7 +173,7 @@ if (!$rowid)
 
 			// Stripe customer
 			print "<td>";
-      print $charge->name;
+      print $charge->company->name;
 	    print "</td>\n";
 
 			// Link

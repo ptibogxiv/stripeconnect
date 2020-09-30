@@ -141,6 +141,7 @@ if (!$rowid)
 	    print '<tr class="liste_titre">';
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+      print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder); 	 
       print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
@@ -155,10 +156,20 @@ if (!$rowid)
 			if ($i >= $limit) {
 				break;
 			}
+		$sql = "SELECT sa.fk_soc as fk_soc";
+		$sql .= " FROM ".MAIN_DB_PREFIX."oauth_token as sa";
+		$sql .= " WHERE sa.tokenstring LIKE '%".$db->escape($charge->id)."%'";
+		$sql .= " AND sa.service = '".$service."'";
 
+		$result = $db->query($sql);
+		if ($result) {
+			if ($db->num_rows($result)) {
+				$obj = $db->fetch_object($result);
+				$socid = $obj->fk_soc;
+			}
+		}
 
 			print '<tr class="oddeven">';
-
 
 			// Ref
 			$url = 'https://dashboard.stripe.com/test/connect/accounts/'.$charge->id;
@@ -167,16 +178,24 @@ if (!$rowid)
 	        	$url = 'https://dashboard.stripe.com/connect/accounts/'.$charge->id;
 	        }
 			print "<td>";
-	        print "<a href='".$url."' target='_stripe'>".img_picto($langs->trans('ShowInStripe'), 'globe')." ".$charge->id."</a>";
-	        if ($charge->payment_intent) print '<br><span class="opacitymedium">'.$charge->payment_intent.'</span>';
+	    print "<a href='".$url."' target='_stripe'>".img_picto($langs->trans('ShowInStripe'), 'globe')." ".$charge->id."</a>";
 			print "</td>\n";
 
 			// Stripe customer
 			print "<td>";
       print $charge->company->name;
 	    print "</td>\n";
+      
+			// Customer
+			print "<td>";
+			if ($socid > 0)
+			{
+        $societestatic->fetch($socid);
+				print $societestatic->getNomUrl(1);
+			}
+	    print "</td>\n";
 
-			// Link
+			// Type
 			print "<td>";
       print $charge->type;
 	    print "</td>\n";

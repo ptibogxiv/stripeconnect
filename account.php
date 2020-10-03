@@ -351,7 +351,8 @@ print dolGetStatus($account->details_submitted, !empty($account->details_submitt
 print '</td></tr>';
 
 print '</table>';
-} elseif ($account->type == 'custom') {
+
+} else {
 //print $account;
 
 print '<table class="noborder centpercent">';
@@ -366,8 +367,7 @@ print '</td></tr>'."\n";
 // Company
 print '<tr class="oddeven"><td><label for="name">'.$langs->trans("Type").'</label></td><td>';
 print $account->type;
-print " - ".$langs->trans($account->business_type);
-//<input name="nom" id="name" class="minwidth200" value="'. dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_NOM?$conf->global->MAIN_INFO_SOCIETE_NOM: GETPOST("nom", 'nohtml')) . '"'.(empty($conf->global->MAIN_OPTIMIZEFORTEXTBROWSER) ? '' : ' autofocus="autofocus"').'>
+if (!empty($account->business_type)) print " - ".$langs->trans($account->business_type);
 print '</td></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="name">'.$langs->trans("MerchantCategoryCode").'</label></td><td>';
@@ -526,7 +526,7 @@ print '</td><td class="nocellnopadd right" valign="middle">';
 //}
 print '</td></tr></table>';
 print '</td></tr>';
-
+if ($account->type == 'custom') {
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Board").'</th><th></th></tr>'."\n";
 $persons = \Stripe\Account::allPersons($stripeacc);
 foreach ($persons as $person) {
@@ -566,13 +566,10 @@ print $langs->trans("Owner").": ".dolGetStatus($person->relationship->owner, $ac
 if (!empty($person->relationship->percent_ownership)) print " ".$person->relationship->percent_ownership."%";
 print "</td></tr>";
 }
+}
 
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("BankAccount").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n"; 
 print '<tr><td colspan="2">'.$account->external_accounts.'</td></tr>';
-foreach ($persons as $person) {
-
-
-}
 
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n"; 
 
@@ -647,7 +644,7 @@ print '</td></tr>';
 
 print '</table>';
 
-if ($stripeacc)
+if ($stripeacc && $account->type == 'custom')
 	{
     $account = \Stripe\AccountLink::create([
   'account' => $stripeacc,
@@ -655,13 +652,28 @@ if ($stripeacc)
   'return_url' => dol_buildpath('/stripeconnect/account.php?confirm=success', 2),
   'type' => 'account_update',
 ]);
+    $target = "_self";
+	} elseif ($stripeacc && $account->type == 'express')
+  {
+    $account = \Stripe\Account::createLoginLink($stripeacc);
+    $target = "_blank";
 	}
 
 print '<div class="tabsAction">'."\n";
-print '<a class="butAction" href="'.$account->url.'" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
+print '<a class="butAction" href="'.$account->url.'" target="'.$target.'" title="'.dol_escape_htmltag($langs->trans("Update")).'">'.$langs->trans("Update").'</a>';
 print '</div>'."\n";
 
 }
+
+//$account = \Stripe\Account::create([
+//  'type' => 'express',
+//  'country' => 'fr',
+//  'email' => '',
+//  'capabilities' => [
+//    'card_payments' => ['requested' => true],
+//    'transfers' => ['requested' => true],
+//  ],
+//]);
 
 // End of page
 llxFooter();

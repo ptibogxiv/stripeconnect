@@ -142,6 +142,7 @@ if (!$rowid)
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
       print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+      if ($conf->multicompany->enabled) print_liste_field_titre("Entity", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder); 	 
       print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
@@ -194,6 +195,34 @@ if (!$rowid)
 				print $societestatic->getNomUrl(1);
 			}
 	    print "</td>\n";
+      
+			// Entity
+if ($conf->multicompany->enabled) {
+			print "<td>";
+      dol_include_once('/multicompany/class/actions_multicompany.class.php');
+ 	$sql = "SELECT entity";
+	$sql .= " FROM ".MAIN_DB_PREFIX."oauth_token";
+	$sql .= " WHERE service = '".$db->escape($service)."' and tokenstring LIKE '%".$db->escape($charge->id)."%'";
+
+	dol_syslog(get_class($db)."::fetch", LOG_DEBUG);
+	$result = $db->query($sql);
+	if ($result)
+	{
+		if ($db->num_rows($result))
+		{
+			$obj = $db->fetch_object($result);
+			$key = $obj->entity;
+		} else {
+			$key = 1;
+		}
+	} else {
+		$key = 1;
+	}
+      $action = new ActionsMulticompany($db);
+	    $action->getInfo($key);
+      print $action->label;
+      print "</td>\n";
+}
 
 			// Type
 			print "<td>";

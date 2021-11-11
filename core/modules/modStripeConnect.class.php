@@ -61,7 +61,7 @@ class modStripeConnect extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = "Module StripeConnect";
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '13.0.3';
+		$this->version = '15.0.0';
 		
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
@@ -70,7 +70,7 @@ class modStripeConnect extends DolibarrModules {
 		// Name of image file used for this module.
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/images directory, use this->picto=DOL_URL_ROOT.'/module/images/file.png'
-		$this->picto = 'stripeconnect@stripeconnect';
+		$this->picto = 'stripe';
 		
     
     // Dependencies

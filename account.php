@@ -329,10 +329,9 @@ print '</td></tr>';
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n";
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Capabilities").'</label></td><td>';
-if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $langs->trans(ucfirst($account->capabilities->card_payments)), '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $langs->trans(ucfirst($account->capabilities->legacy_payments)), '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $langs->trans(ucfirst($account->capabilities->platform_payments)), '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
-//print '<input name="mail" id="email" class="minwidth200" value="'.dol_escape_htmltag($conf->global->MAIN_INFO_SOCIETE_MAIL).'">';
+foreach (json_decode(json_encode($account->capabilities)) as $capabilities => $status) {
+print $langs->trans($capabilities).': '.dolGetStatus($capabilities, $langs->trans(ucfirst($capabilities)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
+}
 print '</td></tr>';
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';
@@ -574,10 +573,9 @@ print '<tr><td colspan="2">'.$account->external_accounts.'</td></tr>';
 print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans("Settings").'</th><th>'.$langs->trans("Value").'</th></tr>'."\n"; 
 
 print '<tr class="oddeven"><td><label for="capabilities">'.$langs->trans("Capabilities").'</label></td><td>';
-if ($account->capabilities->card_payments) print $langs->trans("card_payments").': '.dolGetStatus($account->capabilities->card_payments, $langs->trans(ucfirst($account->capabilities->card_payments)), '', ($account->capabilities->card_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->legacy_payments) print $langs->trans("legacy_payments").': '.dolGetStatus($account->capabilities->legacy_payments, $langs->trans(ucfirst($account->capabilities->legacy_payments)), '', ($account->capabilities->legacy_payments == 'active') ? 'status4' : 'status1', 5).'<br>';
-if ($account->capabilities->platform_payments) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->platform_payments, $langs->trans(ucfirst($account->capabilities->platform_payments)), '', ($account->capabilities->platform_payments == 'active') ? 'status4' : 'status1', 5);
-if ($account->capabilities->transfers) print $langs->trans("platform_payments").': '.dolGetStatus($account->capabilities->transfers, $langs->trans(ucfirst($account->capabilities->transfers)), '', ($account->capabilities->transfers == 'active') ? 'status4' : 'status1', 5);
+foreach (json_decode(json_encode($account->capabilities)) as $capabilities => $status) {
+print $langs->trans($capabilities).': '.dolGetStatus($capabilities, $langs->trans(ucfirst($capabilities)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
+}
 print '</td></tr>';  
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Charges").'</label></td><td>';

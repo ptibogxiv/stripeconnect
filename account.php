@@ -330,7 +330,7 @@ print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans(
 
 print '<tr class="oddeven"><td><label for="email">'.$langs->trans("Capabilities").'</label></td><td>';
 foreach (json_decode(json_encode($account->capabilities)) as $capabilities => $status) {
-print $langs->trans($capabilities).': '.dolGetStatus($capabilities, $langs->trans(ucfirst($capabilities)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
+print $langs->trans($capabilities).': '.dolGetStatus($status, $langs->trans(ucfirst($status)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
 }
 print '</td></tr>';
 
@@ -574,7 +574,7 @@ print '<tr class="liste_titre"><th class="titlefield wordbreak">'.$langs->trans(
 
 print '<tr class="oddeven"><td><label for="capabilities">'.$langs->trans("Capabilities").'</label></td><td>';
 foreach (json_decode(json_encode($account->capabilities)) as $capabilities => $status) {
-print $langs->trans($capabilities).': '.dolGetStatus($capabilities, $langs->trans(ucfirst($capabilities)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
+print $langs->trans($capabilities).': '.dolGetStatus($status, $langs->trans(ucfirst($status)), '', ($status == 'active') ? 'status4' : 'status1', 5).'<br>';
 }
 print '</td></tr>';  
 

@@ -77,7 +77,7 @@ if ($user->societe_id) $socid=$user->societe_id;
  * View
  */
 
-$wikihelp = 'EN:First_setup|FR:Premiers_paramÃ©trages|ES:Primeras_configuraciones';
+$wikihelp = 'EN:First_setup|FR:Premiers_paramétrages|ES:Primeras_configuraciones';
 llxHeader('', $langs->trans("Setup"), $wikihelp);
 
 $form = new Form($db);
@@ -93,7 +93,7 @@ print load_fiche_titre($langs->trans("CompanyFoundation"), '', 'title_setup');
 
 $head = company_admin_prepare_head();
 
-dol_fiche_head($head, 'stripeaccount', $langs->trans("Company"), -1, 'company');
+print dol_get_fiche_head($head, 'stripeaccount', '', -1, '');
 
 if (! empty($conf->stripe->enabled) && (empty($conf->global->STRIPE_LIVE) || GETPOST('forcesandbox', 'alpha'))) {
 	$service = 'StripeTest';
@@ -130,7 +130,7 @@ print "<br>\n";
 	if ($optioncss != '') {
         print '<input type="hidden" name="optioncss" value="' . $optioncss . '">';
     }
-	print '<input type="hidden" name="token" value="' . $_SESSION['newtoken'] . '">';
+	print '<input type="hidden" name="token" value="'.newToken().'">';
 	print '<input type="hidden" name="formfilteraction" id="formfilteraction" value="list">';
 	print '<input type="hidden" name="action" value="list">';
 	print '<input type="hidden" name="sortfield" value="' . $sortfield . '">';

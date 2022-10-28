@@ -159,7 +159,7 @@ if (!$rowid)
 			}
 		$sql = "SELECT sa.fk_soc as fk_soc";
 		$sql .= " FROM ".MAIN_DB_PREFIX."oauth_token as sa";
-		$sql .= " WHERE sa.tokenstring LIKE '%".$db->escape($charge->id)."%'";
+		$sql .= " WHERE sa.entity IN (".getEntity('oauth_token').") AND sa.tokenstring LIKE '%".$db->escape($charge->id)."%'";
 		$sql .= " AND sa.service = '".$service."'";
 
 		$result = $db->query($sql);

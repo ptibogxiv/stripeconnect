@@ -142,7 +142,7 @@ if (!$rowid)
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
       	print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-      	if (isModEnabled('multicompany') print_liste_field_titre("Entity", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+      	if (isModEnabled('multicompany')) print_liste_field_titre("Entity", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder); 	 
       	print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
@@ -196,7 +196,7 @@ if (!$rowid)
 	    print "</td>";
       
 			// Entity
-	if (isModEnabled('multicompany'){
+	if (isModEnabled('multicompany')) {
 			print "<td>";
       dol_include_once('/multicompany/class/actions_multicompany.class.php');
  	$sql = "SELECT entity";

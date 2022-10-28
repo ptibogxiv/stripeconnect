@@ -141,11 +141,11 @@ if (!$rowid)
 	    print '<tr class="liste_titre">';
 	    print_liste_field_titre("Ref", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Name", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-      print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
-      if ($conf->multicompany->enabled) print_liste_field_titre("Entity", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+      	print_liste_field_titre("Customer", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
+      	if (isModEnabled('multicompany') print_liste_field_titre("Entity", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Type", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder);
 	    print_liste_field_titre("Origin", $_SERVER["PHP_SELF"], "", "", "", "", $sortfield, $sortorder); 	 
-      print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
+      	print_liste_field_titre("Currency", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'right ');
 	    print_liste_field_titre("DateCreation", $_SERVER["PHP_SELF"], "", "", "", '', $sortfield, $sortorder, 'center ');
 	    print_liste_field_titre("Status", $_SERVER["PHP_SELF"], "", "", "", '', '', '', 'right ');
 	    print "</tr>\n";
@@ -187,17 +187,16 @@ if (!$rowid)
       print $charge->company->name;
 	    print "</td>\n";
       
-			// Customer
-			print "<td>";
-			if ($socid > 0)
-			{
-        $societestatic->fetch($socid);
-				print $societestatic->getNomUrl(1);
-			}
-	    print "</td>\n";
+		// Customer
+		print "<td>";
+		if ($socid > 0) {
+        	$societestatic->fetch($socid);
+			print $societestatic->getNomUrl(1);
+		}
+	    print "</td>";
       
 			// Entity
-if ($conf->multicompany->enabled) {
+	if (isModEnabled('multicompany'){
 			print "<td>";
       dol_include_once('/multicompany/class/actions_multicompany.class.php');
  	$sql = "SELECT entity";

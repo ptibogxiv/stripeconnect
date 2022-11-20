@@ -49,7 +49,7 @@ class modStripeConnect extends DolibarrModules {
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'stripeconnect';
 		// Module description used if translation string 'ModuleXXXDesc' not found (XXX is id value)
-    	$this->editor_name = 'ptibogxiv.net';
+    	$this->editor_name = 'ptibogxiv.eu';
     	$this->editor_url = 'https://www.ptibogxiv.eu';
 		// Family can be 'crm','financial','hr','projects','products','ecm','technic','other'
 		// It is used to group modules in module setup page

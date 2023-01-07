@@ -64,7 +64,7 @@ $offset = $limit * $page;
 $pageprev = $page - 1;
 $pagenext = $page + 1;
 
-
+$optioncss = GETPOST("optioncss", 'alpha');
 
 /*
  * View
@@ -108,7 +108,7 @@ if (!$rowid)
 		} else {
 			$list = \Stripe\Account::all($option);
 		}
-    //print $list;
+		//print var_dump($list->data);
 		$num = count($list->data);
 
 		$totalnboflines = '';
@@ -116,7 +116,7 @@ if (!$rowid)
 		$param = '';
 		//if (!empty($contextpage) && $contextpage != $_SERVER["PHP_SELF"]) $param .= '&contextpage='.urlencode($contextpage);
 		if ($limit > 0 && $limit != $conf->liste_limit) $param .= '&limit='.urlencode($limit);
-		$param .= '&starting_after_'.($page + 1).'='.$list->data[($limit - 1)]->id;
+		//$param .= '&starting_after_'.($page + 1).'='.$list->data[($limit - 1)]->id;
 		//$param.='&ending_before_'.($page+1).'='.$list->data[($limit-1)]->id;
 
 		$moreforfilter = '';
@@ -184,8 +184,8 @@ if (!$rowid)
 
 			// Stripe customer
 			print "<td>";
-      print $charge->company->name;
-	    print "</td>\n";
+			print $charge->business_profile->name;
+			print "</td>\n";
       
 		// Customer
 		print "<td>";
@@ -225,8 +225,8 @@ if (!$rowid)
 
 			// Type
 			print "<td>";
-      print $charge->type;
-	    print "</td>\n";
+			print $charge->type;
+			print "</td>\n";
 
 			// Origin
 			print "<td>";

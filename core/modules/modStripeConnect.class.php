@@ -61,7 +61,7 @@ class modStripeConnect extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = "Module StripeConnect";
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '16.0.3';
+		$this->version = '20.0.0';
 		
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
@@ -76,8 +76,8 @@ class modStripeConnect extends DolibarrModules {
     $this->depends = array();		// List of modules id that must be enabled if this module is enabled
     $this->requiredby = array();	// List of modules id to disable if this one is disabled
     $this->conflictwith = array();
-    $this->phpmin = array(5,0);					// Minimum version of PHP required by module
-    $this->need_dolibarr_version = array(5,0);	// Minimum version of Dolibarr required by module
+    $this->phpmin = array(7,0);					// Minimum version of PHP required by module
+    $this->need_dolibarr_version = array(20,0);	// Minimum version of Dolibarr required by module
     $this->langfiles = array("stripeconnect@stripeconnect");
 
 
